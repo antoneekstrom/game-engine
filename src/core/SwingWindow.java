@@ -99,7 +99,7 @@ public class SwingWindow extends Window<SwingRenderer> {
 
     @Override
     public Dimension getSize() {
-        return getPanel().getSize();
+        return getFrame().getSize();
     }
 
     @Override

@@ -52,7 +52,7 @@ public abstract class UserInterface <R extends IRenderer<R>> extends ObjectStora
     public void render(R renderer, Vector2D screenPos) {
         if (isVisible()) {
             for (IComponent<R> c : getComponents()) {
-                c.getGraphic().render(renderer, screenPos);
+                c.getGraphic().render(renderer, getPosition().copy().add(c.getPosition()));
             }
         }
     }

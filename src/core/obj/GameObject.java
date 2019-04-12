@@ -9,6 +9,7 @@ import core.IGraphic;
 import core.IMouseInput;
 import core.IRenderer;
 import core.Logic;
+import core.Window;
 import core.math.Box;
 import core.math.Vector2D;
 import core.state.State;
@@ -250,7 +251,7 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      * @return the logic
      */
     @SuppressWarnings("unchecked")
-    protected <L extends Logic<?>> L getLogic() {
+    protected <L extends Logic<R>> L getLogic() {
         return (L) Game.getInstance().getLogic();
     }
 
@@ -262,6 +263,15 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      */
     protected <S extends State> S getState() {
         return Game.getLogicInstance().getState();
+    }
+
+    /**
+     * @param <W>
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    protected <W extends Window<R>> W getWindow() {
+        return (W) Game.getWindowInstance();
     }
 
 }

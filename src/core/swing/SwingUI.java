@@ -6,7 +6,8 @@ import core.math.Vector2D;
 import core.ui.UserInterface;
 
 /**
- * SwingUI TODO
+ * This is an {@link UserInterface} that uses the {@link SwingRenderer}.
+ * <p>This class is mainly for convenience so that I do not have write the same boilerplate all the time.
  */
 public abstract class SwingUI extends UserInterface<SwingRenderer> {
 

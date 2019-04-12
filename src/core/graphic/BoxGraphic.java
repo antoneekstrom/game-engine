@@ -77,7 +77,7 @@ public class BoxGraphic extends SwingGraphic {
 
     @Override
     public void render(Graphics2D g, SwingRenderer renderer, Vector2D screenPos) {
-        DrawHelper.drawBox(getBox().copy().setPosition(screenPos), g);
+        DrawHelper.drawBox(getBox(screenPos), g);
     }
 
     @Override
