@@ -63,7 +63,7 @@ public class SwingWindow extends Window<SwingRenderer> {
         initializePanel(panel);
 
         frame.setSize(size);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(getPanel());
 
@@ -124,7 +124,7 @@ public class SwingWindow extends Window<SwingRenderer> {
 
         SwingRenderer renderer = getRenderer();
         renderer.setGraphics(g);
-        renderer.startRender(this);
+        renderer.startRender();
     }
 
     /**

@@ -2,64 +2,101 @@ package core.ui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.function.Supplier;
 
-import core.IRenderer;
-import core.IRenderer.Type;
 import core.graphic.BoxGraphic;
 import core.graphic.TextGraphic;
 import core.math.Vector2D;
+import core.swing.SwingComponent;
 import core.swing.SwingRenderer;
 
 /**
- * A {@link Component} that displays text.TODO
+ * A {@link Component} that displays text. A TextComponent can also render a background under the text.
  */
-public class TextComponent extends GraphicComponent<SwingRenderer> {
+public class TextComponent extends SwingComponent {
 
     /**
-     * 
+     * The graphic for the text.
      */
-    private TextGraphic textGraphic;
+    private TextGraphic text;
 
     /**
-     * 
+     * The graphic for the background.
      */
-    private BoxGraphic boxGraphic;
+    private BoxGraphic background;
 
     /**
-     * 
+     * A supplier to get the text from on refresh.
+     */
+    private Supplier<String> supplier;
+
+    /**
+     * If the supplier should be used on refresh.
+     */
+    private boolean useSupplier = false;
+
+    /**
+     * Padding for the background around the text.
+     */
+    private Vector2D padding;
+
+    /**
+     * If the background of the text should be rendered.
      */
     private boolean showBackground = false;
 
     /**
-     * @param text
+     * If the background and size of the component should be resized automatically.
+     */
+    private boolean fitToText = true;
+
+    /**
+     * @param text the text to set
      */
     public TextComponent(String text) {
-        this(text, (Font) null);
+        this(() -> text);
     }
 
     /**
-     * @param text
-     * @param textColor
+     * @param text the text to set
+     * @param textColor the color of the text
      */
     public TextComponent(String text, Color textColor) {
-        this(text, (Font) null);
-        textGraphic.setColor(textColor);
+        this(text);
+        this.text.setColor(textColor);
     }
 
-
+    /**
+     * @param text the text to set
+     * @param textColor the color of the text
+     * @param backgroundColor the color of the background
+     */
     public TextComponent(String text, Color textColor, Color backgroundColor) {
         this(text, textColor);
         setBackground(backgroundColor);
     }
 
     /**
-     * @param text
-     * @param font
+     * @param supplier supplier that should be used to set the text of the component on {@link #refresh()}
      */
-    public TextComponent(String text, Font font) {
+    public TextComponent(Supplier<String> supplier) {
         super();
-        textGraphic = new TextGraphic(text, font);
-        boxGraphic = new BoxGraphic(getBox());
+        
+        setSupplier(supplier);
+        this.text = new TextGraphic(supplier.get());
+        background = new BoxGraphic(getBox());
+        padding = Vector2D.create(0, 0);
+    }
+
+    /**
+     * @param text the text to set
+     * @param textColor the color of the text
+     * @param backgroundColor the color of the background
+     */
+    public TextComponent(Supplier<String> supplier, Color textColor, Color backgroundColor) {
+        this(supplier);
+        setColor(textColor);
+        setBackground(backgroundColor);
     }
     
     @Override
@@ -67,36 +104,115 @@ public class TextComponent extends GraphicComponent<SwingRenderer> {
 
         if (showBackground) {
             resizeBackground();
-            boxGraphic.render(renderer, pos);
+            background.render(renderer, pos.copy().sub(getPadding().copy().div(4)));
         }
         
-        textGraphic.render(renderer, pos);
+        text.render(renderer, pos);
     }
 
     @Override
-    public boolean isCompatible(IRenderer<?> renderer) {
-        return renderer.getType() == Type.SWING;
+    public void refresh() {
+        if (supplier != null && useSupplier) setText(getSupplier().get());
+    }
+
+    /**
+     * Set the text to be displayed.
+     * 
+     * @param text the text to set
+     */
+    public void setText(String text) {
+        this.text.setText(text);
+
+        if (fitToText) {
+            resize();
+            if (showBackground) resizeBackground();
+        }
     }
 
     /**
      * Resize the background to fit the size of the text.
      */
     public void resizeBackground() {
-        boxGraphic.getBox().setSize(textGraphic.getTextSize());
+        background.getBox().setSize(getBox().getSize());
     }
 
     /**
-     * @param text
+     * Resize the bounding box of the component to fit the text.
      */
-    public void setText(String text) {
-        textGraphic.setText(text);
+    public void resize() {
+
+        // calculate the text size before doing the other things that depend on the size of the text
+        text.getTextSize().set(text.getTextSize(getRenderer().getGraphics()));
+
+        Vector2D size = text.getTextSize().copy().add(getPadding().copy().div(2));
+        getBox().setSize(size);
+    }
+
+    /**
+     * Set the color of the text.
+     * 
+     * @param color the color
+     */
+    public void setColor(Color color) {
+        text.setColor(color);
+    }
+
+    /**
+     * Set the font.
+     * 
+     * @param font the font to use
+     */
+    public void setFont(Font font) {
+        text.setFont(font);
+    }
+
+    /**
+     * Set the border of the background.
+     * 
+     * @param thickness the thickness is pixels of the border
+     * @param color the color of the border
+     */
+    public void setBorder(int thickness, Color color) {
+        getBackground().setBorder(thickness, color);
     }
 
     /**
      * @return
      */
     public String getText() {
-        return textGraphic.getText();
+        return text.getText();
+    }
+
+    /**
+     * @return the supplier
+     */
+    public Supplier<String> getSupplier() {
+        return supplier;
+    }
+
+    /**
+     * @param useSupplier if the supplier should be used
+     */
+    public void setUseSupplier(boolean useSupplier) {
+        this.useSupplier = useSupplier;
+    }
+
+    /**
+     * A supplier that should be used to set the text
+     * of the component on {@link #refresh()}.
+     * 
+     * @param supplier the supplier
+     */
+    public void setSupplier(Supplier<String> supplier) {
+        setUseSupplier(true);
+        this.supplier = supplier;
+    }
+
+    /**
+     * @param fitToText the fitToText to set
+     */
+    public void setFitToText(boolean fitToText) {
+        this.fitToText = fitToText;
     }
 
     /**
@@ -111,7 +227,43 @@ public class TextComponent extends GraphicComponent<SwingRenderer> {
      */
     public void setBackground(Color color) {
         showBackground(true);
-        boxGraphic.setColor(color);
+        background.setColor(color);
+    }
+
+    /**
+     * @param graphic the background graphic to use
+     */
+    public void setBackgroundGraphic(BoxGraphic graphic) {
+        showBackground(true);
+        this.background = graphic;
+    }
+
+    /**
+     * @param padding the padding to set
+     */
+    public void setPadding(Vector2D padding) {
+        this.padding.set(padding);
+    }
+
+    /**
+     * @param padding the padding to set
+     */
+    public void setPadding(double x, double y) {
+        padding.set(x, y);
+    }
+
+    /**
+     * @return the padding
+     */
+    public Vector2D getPadding() {
+        return padding;
+    }
+
+    /**
+     * @return the background
+     */
+    public BoxGraphic getBackground() {
+        return background;
     }
 
 }

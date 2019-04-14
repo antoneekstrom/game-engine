@@ -4,9 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import core.IGraphic;
 import core.IRenderer;
-import core.IRenderer.Type;
+import core.graphic.GraphicObject;
 import core.math.Box;
 import core.math.Vector2D;
 
@@ -14,22 +13,12 @@ import core.math.Vector2D;
  * ObjectStorage
  * TODO
  */
-public class ObjectStorage <O extends IGameObject<R>, R extends IRenderer<R>> extends GameObject<R> implements IGraphic<R> {
+public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRenderer<R>> extends GraphicObject<R> {
 
     /**
      * 
      */
     private ArrayList<O> objects;
-
-    /**
-     * 
-     */
-    private boolean visible = true;
-
-    /**
-     * 
-     */
-    private int layerIndex = 0;
 
     /**
      * 
@@ -43,38 +32,8 @@ public class ObjectStorage <O extends IGameObject<R>, R extends IRenderer<R>> ex
     public void render(R renderer, Vector2D screenPos) {
         if (isVisible())
         for (O obj : getObjects()) {
-            obj.getGraphic().render(renderer, screenPos);
+            obj.getGraphic().render(renderer, screenPos.copy().add(obj.getPosition()));
         }
-    }
-
-    @Override
-    public IGraphic<R> getGraphic() {
-        return this;
-    }
-
-    @Override
-    public boolean isVisible() {
-        return visible;
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    @Override
-    public boolean isCompatible(IRenderer<?> renderer) {
-        return renderer.getType() == Type.SWING;
-    }
-
-    @Override
-    public int getLayerIndex() {
-        return layerIndex;
-    }
-
-    @Override
-    public void setLayerIndex(int index) {
-        layerIndex = index;
     }
 
     @Override

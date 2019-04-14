@@ -25,6 +25,21 @@ public class BoxGraphic extends SwingGraphic {
     private Box box;
 
     /**
+     * A border around the box.
+     */
+    private Box border;
+
+    /**
+     * Thickness of the border.
+     */
+    private int borderThickness = 0;
+
+    /**
+     * Color of the border.
+     */
+    private Color borderColor;
+
+    /**
      * The transform mostly represents the rotation of the graphic.
      */
     private AffineTransform transform;
@@ -50,6 +65,7 @@ public class BoxGraphic extends SwingGraphic {
         super();
         setBox(box);
 
+        border = box.copy();
         transform = new AffineTransform();
     }
 
@@ -77,6 +93,19 @@ public class BoxGraphic extends SwingGraphic {
 
     @Override
     public void render(Graphics2D g, SwingRenderer renderer, Vector2D screenPos) {
+
+        Color c = g.getColor();
+
+        if (borderColor != null && borderThickness != 0) {
+            g.setColor(borderColor);
+
+            border.getPosition().set(screenPos).sub((double) borderThickness / 2);
+            border.getSize().set(getBox().getSize()).add(borderThickness);
+
+            DrawHelper.drawBox(border, g);
+        }
+
+        g.setColor(c);
         DrawHelper.drawBox(getBox(screenPos), g);
     }
 
@@ -106,6 +135,30 @@ public class BoxGraphic extends SwingGraphic {
         graphics.setTransform(getTransform());
     }
 
+    /**
+     * Set a border around the box.
+     * 
+     * @param thickness the thickness is pixels of the border
+     * @param color the color of the border
+     */
+    public void setBorder(int thickness, Color color) {
+        setBorderThickness(thickness);
+        setBorderColor(color);
+    }
+
+    /**
+     * @param borderThickness the borderThickness to set
+     */
+    public void setBorderThickness(int borderThickness) {
+        this.borderThickness = borderThickness;
+    }
+
+    /**
+     * @param borderColor the borderColor to set
+     */
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
 
     /**
      * @return the box

@@ -50,11 +50,20 @@ public class TextGraphic extends SwingGraphic {
     public void render(Graphics2D g, SwingRenderer renderer, Vector2D pos) {
         if (getFont() != null) g.setFont(getFont());
 
-        FontMetrics m = g.getFontMetrics();
-        textBox.setX(m.stringWidth(getText()));
-        textBox.setY(m.getHeight());
+        textBox.set(getTextSize(g));
 
         DrawHelper.drawText(getText(), pos.addY(textBox.getY() / 1.5), g);
+    }
+
+    /**
+     * Calculate the dimension of the current text.
+     * 
+     * @param g the graphics2d object used to do the calculations
+     * @return the dimensions of the text
+     */
+    public Vector2D getTextSize(Graphics2D g) {
+        FontMetrics m = g.getFontMetrics();
+        return Vector2D.create(m.stringWidth(getText()), m.getHeight());
     }
 
     /**

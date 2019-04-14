@@ -34,9 +34,7 @@ public class HoverGraphic extends ObjectGraphic<GameObject<SwingRenderer>> {
 
     @Override
     protected void renderSetup(SwingRenderer renderer, Vector2D pos) {
-
         setColor(getObject().mouseHover() ? getHoverColor() : getDefaultColor());
-
         super.renderSetup(renderer, pos);
     }
 

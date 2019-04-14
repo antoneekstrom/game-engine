@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import core.IGraphic;
-import core.IRenderer;
-import core.IRenderer.Type;
 import core.math.Vector2D;
 
 /**
@@ -29,7 +27,7 @@ public abstract class SwingGraphic implements IGraphic<SwingRenderer> {
     /**
      * If the grpahic should be rendered.
      */
-    private boolean visible = false;
+    private boolean visible = true;
 
     /**
      * Construct a graphic.
@@ -39,17 +37,12 @@ public abstract class SwingGraphic implements IGraphic<SwingRenderer> {
     @Override
     public void render(SwingRenderer renderer, Vector2D screenPos) {
 
-        if (!isCompatible(renderer)) return;
+        if (!isVisible()) return;
 
         Graphics2D g = renderer.getGraphics();
         g.setColor(getColor());
 
         render(renderer.getGraphics(), renderer, screenPos);
-    }
-
-	@Override
-	public boolean isCompatible(IRenderer<?> renderer) {
-		return renderer.getType() == Type.SWING;
     }
     
     @Override

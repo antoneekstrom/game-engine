@@ -13,6 +13,22 @@ import core.swing.SwingRenderer;
 public interface ICamera {
 
     /**
+     * The inverse of {@link #getDisplayCoordinates(Vector2D)}.
+     * 
+     * @param pos the position
+     * @return the world coordinates
+     */
+    public default Vector2D getWorldCoordinates(Vector2D pos) {
+
+        Dimension windowSize = Game.getWindowInstance().getSize();
+        Vector2D windowCenter = new Vector2D(windowSize.getWidth() / 2, windowSize.getHeight() / 2);
+
+        return new Vector2D(pos).add(getPosition()).sub(windowCenter);
+    }
+
+    // TODO comment
+
+    /**
      * 
      * @param pos
      * @return

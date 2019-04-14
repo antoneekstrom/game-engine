@@ -22,6 +22,10 @@ public class DrawHelper {
         g.fillRect((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
     }
 
+    public static void drawBox(Vector2D pos, Vector2D size, Graphics2D g) {
+        g.fillRect((int) pos.getX(), (int) pos.getY(), (int) size.getX(), (int) size.getY());
+    }
+
     public static void drawText(String text, Vector2D pos, Graphics2D g) {
         g.drawString(text, (int) pos.getX(), (int) pos.getY());
     }

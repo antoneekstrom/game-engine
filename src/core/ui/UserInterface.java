@@ -4,15 +4,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import core.Game;
 import core.IGraphic;
 import core.IRenderer;
 import core.math.Vector2D;
-import core.obj.ObjectStorage;
 
 /**
  * An interface for the user to interact with.
  */
-public abstract class UserInterface <R extends IRenderer<R>> extends ObjectStorage<IComponent<R>, R> {
+public abstract class UserInterface <R extends IRenderer<R>> extends Container<R> {
 
     /**
      * The layer to render this graphic, larger number means more on top.
@@ -35,18 +35,61 @@ public abstract class UserInterface <R extends IRenderer<R>> extends ObjectStora
      * @param id the (hopefully) unique identifier/name of the interface
      */
     public UserInterface(String id) {
-        super();
+        super(false);
         this.id = id;
 
         setLayerIndex(420);
 
+        getBox().setSize(Game.getWindowInstance().getSizeVector());
+
         setup();
+        refresh();
     }
 
     /**
      * A setup method where the components of the interface can be added.
      */
     public abstract void setup();
+
+    /**
+     * Rebuild the UI components.
+     */
+    public void reload() {
+        getComponents().clear();
+        setup();
+        refresh();
+    }
+
+    /**
+     * Refresh the state of the UserInterface.
+     * 
+     * <p>This method can be called to tell the UI to update it's component.
+     * 
+     * <p>It is unnecessary to constantly update the UI with {@link #update()}, because the UI does usually not change that much.
+     * Instead you should do the updating in this method which is called less often.
+     */
+    @Override
+    public void refresh() {
+        super.refresh();
+    }
+
+    /**
+     * Called when the UserInterface is shown. Method is called before the new {@link #isVisible()} state is set.
+     * 
+     * @see #setVisible
+     */
+    protected void onShow() {
+        refresh();
+    }
+
+    /**
+     * Called when the UserInterface is hidden. Method is called before the new {@link #isVisible()} state is set.
+     * 
+     * @see #setVisible
+     */
+    protected void onHide() {
+        refresh();
+    }
 
     @Override
     public void render(R renderer, Vector2D screenPos) {
@@ -69,6 +112,8 @@ public abstract class UserInterface <R extends IRenderer<R>> extends ObjectStora
 
     @Override
     public void setVisible(boolean visible) {
+        if (isVisible() && !visible) onHide();
+        else if (!isVisible() && visible) onShow();
         this.visible = visible;
     }
 

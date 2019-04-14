@@ -214,20 +214,6 @@ public class Vector2D {
     }
 
     /**
-     * Subtract another vector from this one.
-     * 
-     * @param v the other vector
-     * 
-     * @return this vector
-     */
-    public Vector2D sub(Vector2D v) {
-        this.x -= v.getX();
-        this.y -= v.getY();
-
-        return this;
-    }
-
-    /**
      * Add to the x and y component.
      * 
      * @param x the x component
@@ -242,6 +228,32 @@ public class Vector2D {
     }
 
     /**
+     * Add a number to both components.
+     * 
+     * @param d the number to add
+     * @return this vector
+     */
+    public Vector2D add(double d) {
+        addX(d);
+        addY(d);
+        return this;
+    }
+
+    /**
+     * Subtract another vector from this one.
+     * 
+     * @param v the other vector
+     * 
+     * @return this vector
+     */
+    public Vector2D sub(Vector2D v) {
+        this.x -= v.getX();
+        this.y -= v.getY();
+
+        return this;
+    }
+
+    /**
      * Subtract from this vector.
      * 
      * @param x the x component
@@ -252,6 +264,18 @@ public class Vector2D {
     public Vector2D sub(double x, double y) {
         addX(-x);
         addY(-y);
+        return this;
+    }
+
+    /**
+     * Subtract a number to both components.
+     * 
+     * @param d the number to subtract
+     * @return this vector
+     */
+    public Vector2D sub(double d) {
+        subX(d);
+        subY(d);
         return this;
     }
 
@@ -312,6 +336,26 @@ public class Vector2D {
      */
     public Vector2D addY(double y) {
         this.y += y;
+        return this;
+    }
+
+    /**
+     * @param x
+     * 
+     * @return this vector
+     */
+    public Vector2D subX(double x) {
+        this.x -= x;
+        return this;
+    }
+
+    /**
+     * @param y
+     * 
+     * @return this vector
+     */
+    public Vector2D subY(double y) {
+        this.y -= y;
         return this;
     }
 

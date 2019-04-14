@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 /**
  * @author Anton Ekström
  * 
- * Box
+ * Box TODO comment
  */
 public class Box {
 
@@ -47,15 +47,9 @@ public class Box {
         return getPosition().copy().add(getWidth() / 2, getHeight() / 2);
     }
 
-    public boolean contains(Vector2D point) {
-        return
-            getX() <= point.getX() &&
-            getMaxX() >= point.getX() &&
-            getY() <= point.getY() &&
-            getMaxY() >= point.getX();
-    }
-
     /**
+     * Get the rectangle object representing this box.
+     * 
      * @return the rectangle
      */
     public Rectangle getRectangle() {
@@ -64,6 +58,10 @@ public class Box {
         return rectangle;
     }
 
+    /**
+     * Create a new Box that has the same properties as this one.
+     * @return the copy
+     */
     public Box copy() {
         return new Box(this);
     }
@@ -99,11 +97,20 @@ public class Box {
         return this;
     }
 
+    /**
+     * @param d
+     * @return
+     */
     public Box translate(Vector2D d) {
         this.position.add(d);
         return this;
     }
 
+    /**
+     * @param dx
+     * @param dy
+     * @return
+     */
     public Box translate(double dx, double dy) {
         this.position.add(dx, dy);
         return this;
@@ -117,9 +124,37 @@ public class Box {
         return this;
     }
 
+    /**
+     * @param width
+     * @param height
+     * @return
+     */
     public Box setSize(double width, double height) {
         this.size.set(width, height);
         return this;
+    }
+
+    /**
+     * @param w the width
+     */
+    public void setWidth(double w) {
+        this.size.setX(w);
+    }
+
+    /**
+     * Set a vector as this boxes position.
+     * 
+     * @param pos the vector
+     */
+    public void usePosition(Vector2D pos) {
+        this.position = pos;
+    }
+
+    /**
+     * @param h the height
+     */
+    public void setHeight(double h) {
+        this.size.setY(h);
     }
 
     public double getX() {

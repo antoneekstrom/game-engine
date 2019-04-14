@@ -24,14 +24,6 @@ public interface IGraphic <R extends IRenderer<R>> {
     public void render(R renderer, Vector2D pos);
 
     /**
-     * Check if this object is able to be rendered by a certain {@link IRenderer}.
-     * 
-     * @param renderer the renderer to check
-     * @return if it is compatible
-     */
-    public boolean isCompatible(IRenderer<?> renderer);
-
-    /**
      * Get the layer this graphic is to be rendered in. This number affects the "z-depth", if this graphic should be drawn in front of others or behind.
      * <p>A larger number means a higher priority to be rendered on top.
      * 

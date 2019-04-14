@@ -42,6 +42,13 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     }
 
     /**
+     * Rebuild the UI components of every {@link UserInterface}.
+     */
+    public void reload() {
+        getInterfaces().forEach(UserInterface::reload);
+    }
+
+    /**
      * @param ui
      */
     public void add(UserInterface<R> ui) {

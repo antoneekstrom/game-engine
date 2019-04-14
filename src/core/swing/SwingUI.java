@@ -2,6 +2,7 @@ package core.swing;
 
 import java.awt.Font;
 
+import core.io.resources.Resources;
 import core.math.Vector2D;
 import core.ui.UserInterface;
 
@@ -23,6 +24,7 @@ public abstract class SwingUI extends UserInterface<SwingRenderer> {
      */
     public SwingUI(String id) {
         super(id);
+        setFont(Resources.getFont());
     }
 
     @Override

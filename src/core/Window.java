@@ -91,6 +91,15 @@ public abstract class Window <R extends IRenderer<R>> {
     }
 
     /**
+     * Get the center of the window.
+     * 
+     * @return the center
+     */
+    public Vector2D getCenter() {
+        return getSizeVector().div(2);
+    }
+
+    /**
      * Get the key input.
      * 
      * @return the key input

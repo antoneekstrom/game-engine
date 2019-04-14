@@ -8,7 +8,7 @@ import core.swing.SwingRenderer;
 /**
  * An {@link IComponent} that uses the {@link SwingRenderer}.
  */
-public abstract class Component <R extends IRenderer<R>> extends GameObject<R> implements IComponent<R> {
+public abstract class Component<R extends IRenderer<R>> extends GameObject<R> implements IComponent<R> {
 
     /**
      * 
@@ -16,6 +16,9 @@ public abstract class Component <R extends IRenderer<R>> extends GameObject<R> i
     public Component() {
         super(new Box());
     }
+
+    @Override
+    public void refresh() {}
 
     @Override
     public void update() {
@@ -31,6 +34,5 @@ public abstract class Component <R extends IRenderer<R>> extends GameObject<R> i
     public boolean isVisible() {
         return getGraphic().isVisible();
     }
-
     
 }

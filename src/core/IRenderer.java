@@ -89,9 +89,9 @@ public interface IRenderer <R extends IRenderer<R>> {
 
     // TODO
     /**
-     * @param window
+     * 
      */
-    public default void startRender(Window<?> window) {
+    public default void startRender() {
         getRenderMethod().accept(getSelf());
     }
 
@@ -104,7 +104,7 @@ public interface IRenderer <R extends IRenderer<R>> {
      * @param graphic the graphic to render
      * @param screenPos the position on the screen to render the graphic
      */
-    public default void render(IGraphic<R> graphic, Vector2D screenPos) {
+    public default void pushGraphic(IGraphic<R> graphic, Vector2D screenPos) {
         if (graphic != null)
             getRenderQueue().add(new RenderEvent<R>(getSelf(), graphic, screenPos));
 
@@ -120,9 +120,9 @@ public interface IRenderer <R extends IRenderer<R>> {
      * @see #render(IGraphic)
      *
      */
-    public default void render(IGameObject<R> obj) {
+    public default void pushObject(IGameObject<R> obj) {
         if (obj.hasGraphic())
-        render(obj.getGraphic(), getCamera().getDisplayCoordinates(obj));
+        pushGraphic(obj.getGraphic(), getCamera().getDisplayCoordinates(obj));
     }
 
     /**
@@ -130,14 +130,23 @@ public interface IRenderer <R extends IRenderer<R>> {
      * 
      * @param objects the objects to render
      * 
-     * @see #render(IGameObject)
+     * @see #pushObject(IGameObject)
      */
-    public default void render(ArrayList<IGameObject<R>> objects) {
+    public default void pushObjects(ArrayList<IGameObject<R>> objects) {
         for (IGameObject<R> obj : objects) {
-            render(obj);
+            pushObject(obj);
         }
     }
 
+    /**
+     * Get this renderer with the correct type.
+     * 
+     * <p>This had to be done for my overusage of generic types to work correctly.
+     * Otherwise the whole renderqueue and {@link RenderEvent} thing wouldn't work.
+     * It is kind of tricky for a generic typed object to use it's own type for method arguments and such, this was the only solution I could find.
+     * 
+     * @return this renderer
+     */
     public R getSelf();
 
     /**
