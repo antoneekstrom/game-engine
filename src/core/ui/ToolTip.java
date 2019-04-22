@@ -2,7 +2,6 @@ package core.ui;
 
 import java.awt.Color;
 
-import core.graphic.GraphicContainer;
 import core.math.Box;
 import core.math.Vector2D;
 import core.swing.SwingComponent;
@@ -43,6 +42,8 @@ public class ToolTip extends SwingComponent {
         textComponent = new TextComponent(text);
         textComponent.setColor(Color.black);
         textComponent.setBackground(Color.white);
+        textComponent.setCenterText(false);
+        textComponent.setPadding(20, 20);
         setGraphic(textComponent);
     }
 
@@ -63,6 +64,13 @@ public class ToolTip extends SwingComponent {
      */
     public void setText(String text) {
         textComponent.setText(text);
+    }
+
+    /**
+     * @return the textComponent
+     */
+    public TextComponent getTextComponent() {
+        return textComponent;
     }
 
 }

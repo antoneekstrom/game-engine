@@ -3,6 +3,7 @@ package core.ui;
 import java.util.ArrayList;
 
 import core.IRenderer;
+import core.math.Vector2D;
 import core.obj.ObjectStorage;
 import core.ui.layout.AbstractLayout;
 import core.ui.layout.Alignment;
@@ -30,8 +31,26 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
         this(true);
     }
 
+    /**
+     * @param size the size of the container
+     */
+    public Container(Vector2D size) {
+        this(true);
+        getBox().setSize(size);
+    }
+
+    /**
+     * @param resizeChildren if the container should resize it's children
+     */
     public Container(boolean resizeChildren) {
-        DefaultLayout<R> layout = new DefaultLayout<>(resizeChildren);
+        this(new DefaultLayout<>(resizeChildren));
+    }
+
+    /**
+     * @param layout the layout to use
+     */
+    public Container(AbstractLayout<R> layout) {
+        super();
         setLayout(layout);
     }
 
@@ -39,6 +58,12 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
     public void refresh() {
         getChildren().forEach(IComponent::refresh);
         align();
+    }
+
+    @Override
+    public void render(R renderer, Vector2D screenPos) {
+        getInnerGraphic().render(renderer, screenPos);
+        super.render(renderer, screenPos);
     }
 
     /**

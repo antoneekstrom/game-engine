@@ -92,7 +92,9 @@ public interface IRenderer <R extends IRenderer<R>> {
      * 
      */
     public default void startRender() {
-        getRenderMethod().accept(getSelf());
+        Consumer<R> method = getRenderMethod();
+        if (method != null)
+        method.accept(getSelf());
     }
 
     /**

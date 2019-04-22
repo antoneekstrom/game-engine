@@ -2,6 +2,7 @@ package core.ui;
 
 import core.IRenderer;
 import core.math.Box;
+import core.math.Vector2D;
 import core.obj.GameObject;
 import core.swing.SwingRenderer;
 
@@ -33,6 +34,11 @@ public abstract class Component<R extends IRenderer<R>> extends GameObject<R> im
     @Override
     public boolean isVisible() {
         return getGraphic().isVisible();
+    }
+
+    @Override
+    protected void updateMouseHover(Vector2D pos) {
+        super.updateMouseHover(pos);
     }
     
 }

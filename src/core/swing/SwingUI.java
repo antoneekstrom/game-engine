@@ -13,7 +13,7 @@ import core.ui.UserInterface;
 public abstract class SwingUI extends UserInterface<SwingRenderer> {
 
     /**
-     * 
+     * The font.
      */
     private Font font;
 

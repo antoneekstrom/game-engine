@@ -96,17 +96,21 @@ public class BoxGraphic extends SwingGraphic {
 
         Color c = g.getColor();
 
+        Box box = getBox().copy();
+        box.getSize().sub(getBorderThickness());
+        screenPos.add(getBorderThickness() / 2);
+
         if (borderColor != null && borderThickness != 0) {
             g.setColor(borderColor);
 
             border.getPosition().set(screenPos).sub((double) borderThickness / 2);
-            border.getSize().set(getBox().getSize()).add(borderThickness);
+            border.getSize().set(box.getSize()).add(borderThickness);
 
             DrawHelper.drawBox(border, g);
         }
 
         g.setColor(c);
-        DrawHelper.drawBox(getBox(screenPos), g);
+        DrawHelper.drawBox(box.setPosition(screenPos), g);
     }
 
     @Override
@@ -222,6 +226,13 @@ public class BoxGraphic extends SwingGraphic {
      */
     public void setBox(Box box) {
         this.box = box;
+    }
+
+    /**
+     * @return the borderThickness
+     */
+    public int getBorderThickness() {
+        return borderThickness;
     }
     
 }

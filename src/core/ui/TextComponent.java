@@ -9,6 +9,7 @@ import core.graphic.TextGraphic;
 import core.math.Vector2D;
 import core.swing.SwingComponent;
 import core.swing.SwingRenderer;
+import core.util.LayoutHelper;
 
 /**
  * A {@link Component} that displays text. A TextComponent can also render a background under the text.
@@ -51,6 +52,11 @@ public class TextComponent extends SwingComponent {
     private boolean fitToText = true;
 
     /**
+     * If the text inside the component should be centered.
+     */
+    private boolean centerText = true;
+
+    /**
      * @param text the text to set
      */
     public TextComponent(String text) {
@@ -81,7 +87,6 @@ public class TextComponent extends SwingComponent {
      */
     public TextComponent(Supplier<String> supplier) {
         super();
-        
         setSupplier(supplier);
         this.text = new TextGraphic(supplier.get());
         background = new BoxGraphic(getBox());
@@ -89,7 +94,7 @@ public class TextComponent extends SwingComponent {
     }
 
     /**
-     * @param text the text to set
+     * @param supplier supplier that should be used to set the text of the component on {@link #refresh()}
      * @param textColor the color of the text
      * @param backgroundColor the color of the background
      */
@@ -103,10 +108,12 @@ public class TextComponent extends SwingComponent {
     public void render(SwingRenderer renderer, Vector2D pos) {
 
         if (showBackground) {
-            resizeBackground();
-            background.render(renderer, pos.copy().sub(getPadding().copy().div(4)));
+            background.render(renderer, pos);
         }
-        
+
+        if (shouldCenterText()) {
+            pos.add(getBox().getSize().copy().sub(text.getTextSize()).div(2).subY(text.getTextSize().getY() / 2));
+        }
         text.render(renderer, pos);
     }
 
@@ -115,25 +122,25 @@ public class TextComponent extends SwingComponent {
         if (supplier != null && useSupplier) setText(getSupplier().get());
     }
 
+    @Override
+    public void update() {
+        super.update();
+        updateMouseHover(getPosition());
+    }
+
     /**
      * Set the text to be displayed.
      * 
      * @param text the text to set
      */
     public void setText(String text) {
+        if (this.text == null) return;
+
         this.text.setText(text);
 
         if (fitToText) {
             resize();
-            if (showBackground) resizeBackground();
         }
-    }
-
-    /**
-     * Resize the background to fit the size of the text.
-     */
-    public void resizeBackground() {
-        background.getBox().setSize(getBox().getSize());
     }
 
     /**
@@ -141,11 +148,11 @@ public class TextComponent extends SwingComponent {
      */
     public void resize() {
 
-        // calculate the text size before doing the other things that depend on the size of the text
+        // recalculate the text size before doing the other things that depend on the size of the text
         text.getTextSize().set(text.getTextSize(getRenderer().getGraphics()));
 
-        Vector2D size = text.getTextSize().copy().add(getPadding().copy().div(2));
-        getBox().setSize(size);
+        Vector2D size = text.getTextSize().copy();
+        getBox().getSize().set(size).add(getPadding());
     }
 
     /**
@@ -250,6 +257,27 @@ public class TextComponent extends SwingComponent {
      */
     public void setPadding(double x, double y) {
         padding.set(x, y);
+    }
+
+    /**
+     * @return if the text should be centered inside the component
+     */
+    public boolean shouldCenterText() {
+        return centerText;
+    }
+
+    /**
+     * @param centerText if the text should be centered inside the component
+     */
+    public void setCenterText(boolean centerText) {
+        this.centerText = centerText;
+    }
+
+    /**
+     * @return
+     */
+    public Font getFont() {
+        return text.getFont();
     }
 
     /**

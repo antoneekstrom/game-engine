@@ -8,6 +8,7 @@ import core.graphic.GraphicContainer;
 import core.io.resources.Resources;
 import core.math.Vector2D;
 import core.swing.SwingRenderer;
+import core.ui.layout.CenteredLayout;
 import core.util.LayoutHelper;
 
 /**
@@ -102,6 +103,10 @@ public class MeterComponent extends Container<SwingRenderer> {
 
     @Override
     public void render(SwingRenderer renderer, Vector2D pos) {
+
+        bg.setColor(getBackgroundColor());
+        bar.setColor(getForegroundColor());
+
         getInnerGraphic().render(renderer, pos);
         super.render(renderer, pos);
     }
@@ -111,19 +116,13 @@ public class MeterComponent extends Container<SwingRenderer> {
      */
     private void setup() {
 
+        setLayout(new CenteredLayout<>());
+
         bg = new BoxGraphic(getBox(), getBackgroundColor());
         bar = new BoxGraphic(getBox().copy(), getForegroundColor());
 
         GraphicContainer<SwingRenderer> c = new GraphicContainer<>(bg, bar);
         setGraphic(c);
-
-        Supplier<String> supplier = () -> String.format("%.2f/%.2f", getValue(), getMaxValue());
-
-        text = new TextComponent(supplier);
-        text.setFont(Resources.getFont());
-        text.setColor(Color.green);
-
-        add(text);
 
         refresh();
     }
@@ -140,7 +139,7 @@ public class MeterComponent extends Container<SwingRenderer> {
         double progress = getProgress();
         double width = getBox().getWidth() * progress;
 
-        bar.getBox().setWidth(width);
+        bar.getBox().setSize(width, getBox().getHeight());
     }
 
     /**
@@ -156,6 +155,13 @@ public class MeterComponent extends Container<SwingRenderer> {
      */
     public double getProgress() {
         return getValue() / getMaxValue();
+    }
+
+    /**
+     * @return TODO
+     */
+    public String formatProgress() {
+        return String.format("%.2f/%.2f", getValue(), getMaxValue());
     }
 
     /**
