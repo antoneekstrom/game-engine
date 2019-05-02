@@ -22,6 +22,11 @@ public abstract class GraphicComponent<R extends IRenderer<R>> extends Component
      */
     private int layerIndex = 0;
 
+    /**
+     * 
+     */
+    private boolean visible = true;
+
     @Override
     public int getLayerIndex() {
         return layerIndex;
@@ -35,6 +40,16 @@ public abstract class GraphicComponent<R extends IRenderer<R>> extends Component
     @Override
     public IGraphic<R> getGraphic() {
         return this;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return visible;
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     /**

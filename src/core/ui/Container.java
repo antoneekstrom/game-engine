@@ -2,6 +2,7 @@ package core.ui;
 
 import java.util.ArrayList;
 
+import core.IGraphic;
 import core.IRenderer;
 import core.math.Vector2D;
 import core.obj.ObjectStorage;
@@ -23,6 +24,11 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
      * The default alignment for children that are added to the container.
      */
     private Alignment defaultAlignment = Alignment.CENTER;
+
+    /**
+     * 
+     */
+    private UserInterface<R> ui;
 
     /**
      * Create a container.
@@ -55,6 +61,11 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
     }
 
     @Override
+    protected boolean shouldPropagate(IComponent<R> obj) {
+        return obj.isVisible();
+    }
+
+    @Override
     public void refresh() {
         getChildren().forEach(IComponent::refresh);
         align();
@@ -62,7 +73,9 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
 
     @Override
     public void render(R renderer, Vector2D screenPos) {
-        getInnerGraphic().render(renderer, screenPos);
+        IGraphic<R> g = getInnerGraphic();
+        if (g != null)
+        g.render(renderer, screenPos);
         super.render(renderer, screenPos);
     }
 
@@ -91,6 +104,7 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
      * @param align the aligment for the item
      */
     public void add(IComponent<R> component, Alignment align) {
+        component.setUI(getUI());
         getChildren().add(component);
         getLayout().align(component, align);
     }
@@ -136,6 +150,16 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
      */
     public Alignment getDefaultAlignment() {
         return defaultAlignment;
+    }
+
+    @Override
+    public UserInterface<R> getUI() {
+        return ui;
+    }
+
+    @Override
+    public void setUI(UserInterface<R> ui) {
+        this.ui = ui;
     }
 
 }

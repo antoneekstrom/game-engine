@@ -27,5 +27,16 @@ public interface IComponent<R extends IRenderer<R>> extends IGameObject<R> {
      * Instead you should do the updating in this method which is called less often.
      */
     public void refresh();
+
+    /**
+     * 
+     * @return
+     */
+    public UserInterface<R> getUI();
+
+    /**
+     * @param ui the ui to set
+     */
+    public void setUI(UserInterface<R> ui);
     
 }

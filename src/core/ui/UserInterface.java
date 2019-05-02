@@ -92,6 +92,11 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     }
 
     @Override
+    protected boolean shouldPropagate(IComponent<R> obj) {
+        return obj.isVisible();
+    }
+
+    @Override
     public void render(R renderer, Vector2D screenPos) {
         if (isVisible()) {
             for (IComponent<R> c : getComponents()) {
@@ -118,55 +123,6 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     }
 
     @Override
-    public void update() {
-        for (IComponent<R> c : getComponents()) {
-            c.update();
-        }
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        for (IComponent<R> c : getComponents()) {
-            c.mouseMoved(e);
-        }
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        for (IComponent<R> c : getComponents()) {
-            c.mouseDragged(e);
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        for (IComponent<R> c : getComponents()) {
-            c.mouseReleased(e);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        for (IComponent<R> c : getComponents()) {
-            c.mousePressed(e);
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        for (IComponent<R> c : getComponents()) {
-            c.keyPressed(e);
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        for (IComponent<R> c : getComponents()) {
-            c.keyReleased(e);
-        }
-    }
-
-    @Override
     public void setLayerIndex(int layerIndex) {
         this.layerIndex = layerIndex;
     }
@@ -190,6 +146,7 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
      */
     public void add(IComponent<R> comp) {
         getComponents().add(comp);
+        comp.setUI(this);
     }
 
     /**

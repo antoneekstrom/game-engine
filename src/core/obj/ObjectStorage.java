@@ -28,10 +28,18 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
         objects = new ArrayList<>();
     }
 
+    /**
+     * If the storage object should forward a method call to a child object.
+     * @param obj the child object
+     * @return if the child should be invoked
+     */
+    protected abstract boolean shouldPropagate(O obj);
+
     @Override
     public void render(R renderer, Vector2D screenPos) {
         if (isVisible())
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.getGraphic().render(renderer, screenPos.copy().add(obj.getPosition()));
         }
     }
@@ -39,6 +47,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void update() {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.update();
         }
     }
@@ -46,6 +55,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void mouseMoved(MouseEvent e) {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.mouseMoved(e);
         }
     }
@@ -53,6 +63,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void mouseDragged(MouseEvent e) {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.mouseDragged(e);
         }
     }
@@ -60,6 +71,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void mouseReleased(MouseEvent e) {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.mouseReleased(e);
         }
     }
@@ -67,6 +79,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void mousePressed(MouseEvent e) {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.mousePressed(e);
         }
     }
@@ -74,6 +87,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void keyPressed(KeyEvent e) {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.keyPressed(e);
         }
     }
@@ -81,6 +95,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     @Override
     public void keyReleased(KeyEvent e) {
         for (O obj : getObjects()) {
+            if (shouldPropagate(obj))
             obj.keyReleased(e);
         }
     }

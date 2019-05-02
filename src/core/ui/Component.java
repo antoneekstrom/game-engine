@@ -14,6 +14,11 @@ public abstract class Component<R extends IRenderer<R>> extends GameObject<R> im
     /**
      * 
      */
+    private UserInterface<R> ui;
+
+    /**
+     * 
+     */
     public Component() {
         super(new Box());
     }
@@ -38,7 +43,23 @@ public abstract class Component<R extends IRenderer<R>> extends GameObject<R> im
 
     @Override
     protected void updateMouseHover(Vector2D pos) {
+        if (isVisible())
         super.updateMouseHover(pos);
+    }
+
+    @Override
+    public boolean mouseHover() {
+        return super.mouseHover() && isVisible();
+    }
+
+    @Override
+    public UserInterface<R> getUI() {
+        return ui;
+    }
+
+    @Override
+    public void setUI(UserInterface<R> ui) {
+        this.ui = ui;
     }
     
 }

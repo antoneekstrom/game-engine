@@ -24,6 +24,11 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     }
 
     @Override
+    protected boolean shouldPropagate(UserInterface<R> obj) {
+        return obj == getActive();
+    }
+
+    @Override
     public IGraphic<R> getGraphic() {
         return getActive().getGraphic();
     }

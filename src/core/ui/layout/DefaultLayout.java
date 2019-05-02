@@ -21,19 +21,19 @@ public class DefaultLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
     private boolean resizeChildren = true;
 
     /**
-     * The width children should be resized to. -1 will set them to the full width of the container.
+     * The percent of the width of the container that children will be resized to.
      */
-    private double resizeWidth = -1;
+    private double widthScale = 1;
 
     /**
      * The spacing between the children in height.
      */
-    private double spacing = 0;
+    protected double spacing = 0;
 
     /**
      * The margin of the first child from the top of the container.
      */
-    private double topMargin = 0;
+    protected double topMargin = 0;
 
 
     /**
@@ -44,7 +44,7 @@ public class DefaultLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
     /**
      * The largest y of the last component, used for aligning them in y axis.
      */
-    private double lastHeight = 0;
+    protected double lastHeight = 0;
 
     /**
      * Resizes children by default.
@@ -83,7 +83,7 @@ public class DefaultLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
 
         // resize the component if it should be
         if (shouldResizeChildren()) {
-            comp.getBox().getSize().setX(resizeWidth == -1 ? c.getBox().getWidth() : resizeWidth);
+            comp.getBox().getSize().setX(c.getBox().getWidth() * widthScale);
         }
 
         // begin with aligning it in the center
@@ -112,10 +112,10 @@ public class DefaultLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
     }
 
     /**
-     * @param resizeWidth the width children should be resized to
+     * @param widthScale The percent of the width of the container that children will be resized to
      */
-    public void setResizeWidth(double resizeWidth) {
-        this.resizeWidth = resizeWidth;
+    public void setWidthScale(double widthScale) {
+        this.widthScale = widthScale;
     }
 
     /**

@@ -1,8 +1,6 @@
 package core.swing;
 
 import core.IGraphic;
-import core.IRenderer;
-import core.IRenderer.Type;
 import core.graphic.BoxGraphic;
 import core.graphic.GraphicObject;
 import core.math.Box;

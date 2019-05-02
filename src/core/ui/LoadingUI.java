@@ -8,6 +8,7 @@ import core.graphic.BoxGraphic;
 import core.swing.SwingRenderer;
 import core.swing.SwingUI;
 import core.ui.layout.CenteredLayout;
+import core.ui.layout.DefaultLayout;
 
 /**
  * Shows a loading bar.
@@ -46,27 +47,29 @@ public class LoadingUI extends SwingUI {
     public void setup() {
 
         BoxGraphic g = new BoxGraphic(getBox());
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
 
-        main = new Container<>(new CenteredLayout<SwingRenderer>());
+        CenteredLayout<SwingRenderer> layout = new CenteredLayout<>();
+        layout.setWidthScale(0.6);
+
+        main = new Container<>(layout);
         main.getBox().setSize(getBox().getSize());
         main.setGraphic(g);
         add(main);
 
         loadingBar = new MeterComponent(() -> progress, 100);
-        loadingBar.getBox().setSize(getWindow().getSizeVector().mul(0.6)).getSize().setY(100);
         loadingBar.setBackgroundColor(Color.white);
-        loadingBar.setForegroundColor(Color.green);
+        loadingBar.setForegroundColor(Color.black);
+        loadingBar.getBox().setHeight(125);
 
         TextComponent text = new TextComponent(() -> loadingBar.formatProgress());
         text.setFont(getFont());
-        text.setColor(Color.red);
+        text.setColor(Color.white);
 
         loadingBar.add(text);
 
         statusTextComp = new TextComponent("");
         statusTextComp.setColor(Color.black);
-        //statusTextComp.setFont(getFont().deriveFont(40f));
 
         main.add(statusTextComp);
         main.add(loadingBar);
