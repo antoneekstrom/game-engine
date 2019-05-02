@@ -1,7 +1,5 @@
 package core.ui;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import core.Game;
@@ -88,6 +86,16 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
      * @see #setVisible
      */
     protected void onHide() {
+        refresh();
+    }
+
+    /**
+     * Invoked when the window is resized.
+     * 
+     * @param size the new size of the window
+     */
+    public void onResize(Vector2D size) {
+        getSize().set(size);
         refresh();
     }
 

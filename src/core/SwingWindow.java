@@ -2,11 +2,16 @@ package core;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 
 import core.io.resources.ImageResource;
+import core.math.Vector2D;
 import core.swing.SwingRenderer;
 import core.util.FrameUtil;
 
@@ -42,6 +47,11 @@ public class SwingWindow extends Window<SwingRenderer> {
     final private Dimension size;
 
     /**
+     * 
+     */
+    private ArrayList<Consumer<Vector2D>> resizeListeners;
+
+    /**
      * Create a window.
      * 
      * @param title the title
@@ -68,6 +78,10 @@ public class SwingWindow extends Window<SwingRenderer> {
         frame.add(getPanel());
 
         frame.validate();
+
+        resizeListeners = new ArrayList<>();
+
+        setResizeCallback();
     }
 
     @Override
@@ -115,6 +129,21 @@ public class SwingWindow extends Window<SwingRenderer> {
         getFrame().setIconImage(img.getBufferedImage());
     }
 
+    @Override
+    public void onResize(Vector2D size) {
+        resizeListeners.forEach(c -> c.accept(size));
+    }
+
+    @Override
+    public void addResizeListener(Consumer<Vector2D> consumer) {
+        resizeListeners.add(consumer);
+    }
+
+    @Override
+    public void removeResizeListener(Consumer<Vector2D> consumer) {
+        resizeListeners.remove(consumer);
+    }
+
     /**
      * Paint graphics. This method is called by {@link #render(SwingRenderer)}.
      * 
@@ -127,22 +156,27 @@ public class SwingWindow extends Window<SwingRenderer> {
         renderer.startRender();
     }
 
+    private void initializePanel(GamePanel panel) {
+        setPanel(panel);
+        getPanel().initialize(getGame());
+        this.keyInput = panel.getKeyInput();
+        this.mouseInput = panel.getMouseInput();
+    }
+
+    private void setResizeCallback() {
+        getPanel().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                onResize(getSizeVector());
+            }
+        });
+    }
+
     /**
      * @param panel the panel to set
      */
     public void setPanel(GamePanel panel) {
         this.panel = panel;
-    }
-
-    /**
-     * 
-     * @param panel
-     */
-    public void initializePanel(GamePanel panel) {
-        setPanel(panel);
-        getPanel().initialize(getGame());
-        this.keyInput = panel.getKeyInput();
-        this.mouseInput = panel.getMouseInput();
     }
 
     /**

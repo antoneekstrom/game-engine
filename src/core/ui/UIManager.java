@@ -21,6 +21,10 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
      */
     public UIManager() {
         super();
+
+        getWindow().addResizeListener((size) -> {
+            getInterfaces().forEach(i -> i.onResize(size));
+        });
     }
 
     @Override

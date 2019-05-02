@@ -2,6 +2,7 @@ package core;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.util.function.Consumer;
 
 import core.math.Vector2D;
 
@@ -73,6 +74,27 @@ public abstract class Window <R extends IRenderer<R>> {
      * @param icon the icon file to use
      */
     public abstract void setIcon(File icon);
+
+    /**
+     * Invoked when the window is resized.
+     * 
+     * @param size the new size of the window
+     */
+    public abstract void onResize(Vector2D size);
+
+    /**
+     * Add a consumer that will be invoked when the window is resized.
+     * 
+     * @param consumer the consumer
+     */
+    public abstract void addResizeListener(Consumer<Vector2D> consumer);
+
+    /**
+     * Remove a resize listener.
+     * 
+     * @param consumer the consumer
+     */
+    public abstract void removeResizeListener(Consumer<Vector2D> consumer);
 
     /**
      * Get the size of the window.

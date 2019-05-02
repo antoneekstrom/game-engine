@@ -107,7 +107,6 @@ public class MeterComponent extends Container<SwingRenderer> {
         bg.setColor(getBackgroundColor());
         bar.setColor(getForegroundColor());
 
-        getInnerGraphic().render(renderer, pos);
         super.render(renderer, pos);
     }
 

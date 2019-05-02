@@ -86,7 +86,6 @@ public class DefaultLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
             comp.getBox().getSize().setX(c.getBox().getWidth() * widthScale);
         }
 
-        // begin with aligning it in the center
         pos.set(c.getSize().copy().sub(comp.getBox().getSize()).div(2));
 
         // set the y position of the component, which is determined by it's index
