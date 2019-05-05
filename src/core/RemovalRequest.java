@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 import core.obj.IGameObject;
 
 /**
@@ -8,27 +10,33 @@ import core.obj.IGameObject;
  * @see Logic
  * @see IGameObject
  */
-public class RemovalRequest <L extends Logic<?>> extends Request<L> {
+public class RemovalRequest <R extends IRenderer<R>, L extends Logic<R>> extends Request<L> {
 
     /**
      * The objects to remove.
      */
-    private IGameObject<?>[] objects;
+    private IGameObject<R>[] objects;
 
     /**
      * Create a request.
      * 
+     * @param logic the logic instance
      * @param objects the objects to remove
      */
-    public RemovalRequest(IGameObject<?>... objects) {
+    @SafeVarargs
+    public RemovalRequest(IGameObject<R>... objects) {
 
         this.objects = objects;
 
         setType(Request.RequestType.REMOVAL);
 
         setAction((logic) -> {
-            for (IGameObject<?> obj : this.objects) {
-                logic.getObjects().remove(obj);
+            for (IGameObject<R> obj : this.objects) {
+                ArrayList<IGameObject<R>> lobjects = logic.getObjects();
+
+                for (int i = 0; i < lobjects.size(); i++) {
+                    lobjects.get(i).remove(lobjects, obj, i);
+                }
             }
         });
     }

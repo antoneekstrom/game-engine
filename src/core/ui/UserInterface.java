@@ -18,11 +18,6 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     private int layerIndex = 0;
 
     /**
-     * 
-     */
-    private boolean visible = true;
-
-    /**
      * Name/id of the interface. Used to find it in UIManagers.
      */
     private final String id;
@@ -37,6 +32,7 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
         this.id = id;
 
         setLayerIndex(420);
+        setVisible(false);
 
         getBox().setSize(Game.getWindowInstance().getSizeVector());
 
@@ -119,15 +115,10 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     }
 
     @Override
-    public boolean isVisible() {
-        return visible;
-    }
-
-    @Override
     public void setVisible(boolean visible) {
         if (isVisible() && !visible) onHide();
         else if (!isVisible() && visible) onShow();
-        this.visible = visible;
+        super.setVisible(visible);
     }
 
     @Override

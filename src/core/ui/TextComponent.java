@@ -9,7 +9,6 @@ import core.graphic.TextGraphic;
 import core.math.Vector2D;
 import core.swing.SwingComponent;
 import core.swing.SwingRenderer;
-import core.util.LayoutHelper;
 
 /**
  * A {@link Component} that displays text. A TextComponent can also render a background under the text.
@@ -106,15 +105,26 @@ public class TextComponent extends SwingComponent {
     
     @Override
     public void render(SwingRenderer renderer, Vector2D pos) {
-
         if (showBackground) {
             background.render(renderer, pos);
         }
 
         if (shouldCenterText()) {
-            pos.add(getBox().getSize().copy().sub(text.getTextSize()).div(2).subY(text.getTextSize().getY() / 2));
+            pos.set(getTextCenter(text, pos));
         }
         text.render(renderer, pos);
+    }
+
+    /**
+     * 
+     * @param g
+     * @param renderPos
+     * @return
+     */
+    public Vector2D getTextCenter(TextGraphic g, Vector2D renderPos) {
+        Vector2D size = getBox().getSize().copy();
+        Vector2D textSize = text.getTextSize().copy();
+        return renderPos.add(size.div(2)).sub(textSize.div(2));
     }
 
     @Override

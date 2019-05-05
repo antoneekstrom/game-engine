@@ -61,22 +61,22 @@ public class Game {
      * @param game the game to run
      * 
      * @see {@link Game#create()}
-     * @see {@link Game#runLogic()}
+     * @see {@link Game#initialize()}
      * @see {@link Game#show()}.
      * @see {@link Game#setInstance(Game)}.
      */
     public static void run(Game game) {
         Game.setInstance(game);
         game.create();
-        game.runLogic();
+        game.initialize();
         game.show();
     }
 
     /**
      * Run the logic of the game.
      */
-    public void runLogic() {
-        getLogic().run();
+    public void initialize() {
+        getLogic().initialize();
     }
 
     /**

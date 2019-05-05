@@ -29,7 +29,7 @@ public class SwingRenderer implements IRenderer<SwingRenderer> {
     /**
      * 
      */
-    private Window<?> window;
+    private Window<SwingRenderer> window;
 
     /**
      * 
@@ -112,7 +112,7 @@ public class SwingRenderer implements IRenderer<SwingRenderer> {
     }
 
     @Override
-    public void initialize(Window<?> window) {
+    public void build(Window<SwingRenderer> window) {
 
         setWindow(window);
         setCamera(new Camera());
@@ -126,23 +126,13 @@ public class SwingRenderer implements IRenderer<SwingRenderer> {
     }
 
     @Override
-    public Window<?> getWindow() {
+    public Window<SwingRenderer> getWindow() {
         return window;
     }
 
     @Override
-    public void setWindow(Window<?> window) {
+    public void setWindow(Window<SwingRenderer> window) {
         this.window = window;
-    }
-
-    @Override
-    public void setRenderMethod(Consumer<SwingRenderer> renderMethod) {
-        this.renderMethod = renderMethod;
-    }
-
-    @Override
-    public Consumer<SwingRenderer> getRenderMethod() {
-        return renderMethod;
     }
 
     @Override

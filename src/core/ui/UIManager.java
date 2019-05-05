@@ -60,15 +60,18 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     /**
      * @param ui
      */
-    public void add(UserInterface<R> ui) {
-        getInterfaces().add(ui);
+    public void remove(UserInterface<R> ui) {
+        getInterfaces().remove(ui);
     }
 
     /**
-     * @param ui
+     * Set an interface as active, show it, and hide the one that was active before.
+     * @param ui the ui to show
      */
-    public void remove(UserInterface<R> ui) {
-        getInterfaces().remove(ui);
+    public void show(UserInterface<R> ui) {
+        getActive().setVisible(false);
+        setActive(ui);
+        getActive().setVisible(true);
     }
 
     /**
@@ -83,7 +86,7 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
      * 
      * @param active the ui to set to active
      */
-    public void setActive(UserInterface<R> active) {
+    protected void setActive(UserInterface<R> active) {
         this.active = active;
     }
 

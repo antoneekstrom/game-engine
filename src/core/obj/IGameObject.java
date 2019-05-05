@@ -2,6 +2,7 @@ package core.obj;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import core.Game;
 import core.IGraphic;
@@ -51,6 +52,22 @@ public interface IGameObject <R extends IRenderer<R>> {
 
     public default void keyReleased(KeyEvent e) {}
 
+    /**
+     * Remove an object. This method is supposed to check if this is the object that is being requested to be removed.
+     * If this is a collection of objects (eg. {@link ObjectStorage}) this method should check if the object to be removed is a child of this one.
+     * If the object is a child, it should be removed.
+     * 
+     * @param objects the collection which the object is to be removed from
+     * @param obj the object to be removed
+     * @param index the index of the object
+     * @return if the object was removed
+     */
+    public boolean remove(ArrayList<IGameObject<R>> objects, IGameObject<R> obj, int index);
+
+    /**
+     * Remove this object from its parent.
+     */
+    public void remove();
 
     /**
      * Get the dimensions and position of this object.

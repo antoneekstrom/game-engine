@@ -31,9 +31,14 @@ public class State implements IState {
 
     @Override
     public void process() {
+        int initialSize = events.size();
+
         while (events.size() > 0) {
             events.pop().process();
         }
+
+        if (initialSize > 0)
+        IState.super.push(new StateProcessedEvent());
     }
 
     @Override

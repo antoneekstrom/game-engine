@@ -35,7 +35,7 @@ public abstract class Window <R extends IRenderer<R>> {
     /**
      * Initialize the window.
      */
-    public abstract void initialize(Game game);
+    public abstract void build(Game game);
 
     /**
      * Make the window visible.
@@ -49,8 +49,9 @@ public abstract class Window <R extends IRenderer<R>> {
 
     /**
      * This method is supposed to do setup to allow subsequent rendering calls from an {@link IRenderer} to be able to render graphics to the {@link Window}.
+     * @param renderConsumer the consumer to be invoked when graphics are ready to be rendered
      */
-    public abstract void render();
+    public abstract void render(Consumer<R> renderConsumer);
 
     /**
      * Maximise the size of the window.

@@ -14,6 +14,7 @@ import core.obj.IGameObject;
 import core.state.State;
 import core.state.StateHandler;
 import core.swing.SwingRenderer;
+import core.threads.ThreadHandler;
 import core.ui.UIManager;
 
 /**
@@ -79,15 +80,21 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
     StateHandler stateHandler;
 
     /**
+     * Handles tasks.
+     */
+    ThreadHandler threadHandler;
+
+    /**
      * 
      */
     protected Logic() {}
 
     /**
+     * Build the logic.
      * 
-     * @param window
+     * @param window the window to be used
      */
-    public void initialize(Window<R> window) {
+    public void build(Window<R> window) {
         setWindow(window);
 
         ready = window != null;
@@ -96,7 +103,7 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
     /**
      * 
      */
-    public void run() {
+    public void initialize() {
 
         if (!ready) throw new IllegalStateException("Has not been initialized yet.");
 
@@ -107,6 +114,8 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
         requests = new LinkedList<>();
 
         uiManager = new UIManager<>();
+
+        threadHandler = new ThreadHandler();
 
         timer = new Timer(timerDelay, this);
 
@@ -130,7 +139,7 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
     /**
      * Is run sometime at the start of the game.
      * 
-     * @see {@link Game#runLogic()}
+     * @see {@link Game#initialize()}
      */
     protected void setup() {}
 
@@ -152,7 +161,7 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
 
         // Initialize rendering
         R renderer = getRenderer();
-        renderer.renderMethod(this::render);
+        renderer.startRendering(this::render);
     }
 
     /**
@@ -209,6 +218,13 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
     @SuppressWarnings("unchecked")
     public <S extends State> S getState() {
         return (S) state;
+    }
+
+    /**
+     * @return the threadHandler
+     */
+    public ThreadHandler getThreadHandler() {
+        return threadHandler;
     }
 
     /**
@@ -295,7 +311,7 @@ public abstract class Logic <R extends IRenderer<R>> implements ActionListener {
      */
     @SafeVarargs
     public final void remove(IGameObject<R>... objs) {
-        dispatch(new RemovalRequest<Logic<R>>(objs));
+        dispatch(new RemovalRequest<R, Logic<R>>(objs));
     }
 
     /**

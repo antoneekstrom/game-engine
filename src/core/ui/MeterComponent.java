@@ -5,11 +5,10 @@ import java.util.function.Supplier;
 
 import core.graphic.BoxGraphic;
 import core.graphic.GraphicContainer;
-import core.io.resources.Resources;
 import core.math.Vector2D;
 import core.swing.SwingRenderer;
 import core.ui.layout.CenteredLayout;
-import core.util.LayoutHelper;
+import core.ui.layout.NoLayout;
 
 /**
  * MeterComponent TODO
@@ -40,11 +39,6 @@ public class MeterComponent extends Container<SwingRenderer> {
      * The foreground/loading bar.
      */
     private BoxGraphic bar;
-
-    /**
-     * Optional text that can be displayed by the meter.
-     */
-    private TextComponent text;
 
     /**
      * Color of the background.
@@ -111,11 +105,27 @@ public class MeterComponent extends Container<SwingRenderer> {
     }
 
     /**
+     * Convenience for adding a text component to the meter.
+     * @param textColor the text color
+     * @param supplier supplier of the text to be displayed
+     * @return the text component that was added
+     */
+    public TextComponent addText(Color textColor, Supplier<String> supplier) {
+        TextComponent t = new TextComponent(supplier);
+        t.setColor(textColor);
+        t.getSize().set(getSize());
+        t.setFitToText(false);
+        t.setCenterText(true);
+        add(t);
+        return t;
+    }
+
+    /**
      * Setup.
      */
     private void setup() {
 
-        setLayout(new CenteredLayout<>());
+        setLayout(new NoLayout<>());
 
         bg = new BoxGraphic(getBox(), getBackgroundColor());
         bar = new BoxGraphic(getBox().copy(), getForegroundColor());

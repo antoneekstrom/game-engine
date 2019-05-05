@@ -12,15 +12,25 @@ import core.swing.SwingRenderer;
 public abstract class Component<R extends IRenderer<R>> extends GameObject<R> implements IComponent<R> {
 
     /**
-     * 
+     * The UI this component belongs to.
      */
     private UserInterface<R> ui;
 
     /**
-     * 
+     * Create a component.
      */
     public Component() {
         super(new Box());
+    }
+
+    /**
+     * Set the size of the component.
+     * <p>I felt this method was lacking.
+     * @param width the width
+     * @param height the height
+     */
+    public void setSize(double width, double height) {
+        getSize().set(width, height);
     }
 
     @Override

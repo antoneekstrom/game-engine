@@ -17,11 +17,22 @@ public class ButtonComponent extends TextComponent {
      */
     private Runnable action;
 
+    /**
+     * 
+     * @param pos
+     * @param text
+     * @param action
+     */
     public ButtonComponent(Vector2D pos, String text, Runnable action) {
         this(text, action);
         setPosition(pos);
     }
 
+    /**
+     * 
+     * @param text
+     * @param action
+     */
     public ButtonComponent(String text, Runnable action) {
         super(text);
         setText(text);
@@ -30,6 +41,10 @@ public class ButtonComponent extends TextComponent {
         setBackgroundGraphic(new HoverGraphic(this, Color.green, Color.red));
     }
 
+    /**
+     * 
+     * @param action
+     */
     public ButtonComponent(Runnable action) {
         this("", action);
         setPadding(100, 100);

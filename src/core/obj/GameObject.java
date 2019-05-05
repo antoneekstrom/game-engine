@@ -3,6 +3,7 @@ package core.obj;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import core.Game;
 import core.IGraphic;
@@ -62,6 +63,18 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      */
     public GameObject(double x, double y, double width, double height) {
         this(new Box(x, y, width, height));
+    }
+
+    @Override
+    public boolean remove(ArrayList<IGameObject<R>> objects, IGameObject<R> obj, int index) {
+        boolean remove = obj == this;
+        if (remove) objects.remove(index);
+        return remove;
+    }
+
+    @Override
+    public void remove() {
+        getLogic().remove(this);
     }
 
     @Override
@@ -158,6 +171,16 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      */
     public Vector2D getSize() {
         return getBox().getSize();
+    }
+
+    /**
+     * Set the size of the object.
+     * 
+     * @param width the width
+     * @param height the height
+     */
+    public void setSize(double width, double height) {
+        getSize().set(width, height);
     }
 
     /**

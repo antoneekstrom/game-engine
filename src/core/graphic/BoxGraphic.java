@@ -97,8 +97,6 @@ public class BoxGraphic extends SwingGraphic {
         Color c = g.getColor();
 
         Box box = getBox().copy();
-        box.getSize().sub(getBorderThickness());
-        screenPos.add(getBorderThickness() / 2);
 
         if (borderColor != null && borderThickness != 0) {
             g.setColor(borderColor);

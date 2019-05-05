@@ -17,9 +17,9 @@ public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
 
         Game game = new Game(getLogic(), getRenderer());
 
-        getWindow().initialize(game);
-        getLogic().initialize(getWindow());
-        getRenderer().initialize(getWindow());
+        getWindow().build(game);
+        getLogic().build(getWindow());
+        getRenderer().build(getWindow());
 
         return game;
     }

@@ -1,0 +1,19 @@
+
+Battle:
+
+    class: BattleEvent
+
+    method: battle.push(BattleEvent)
+
+    var: EventQueue for BattleEvents
+
+    mechanic: new thread waits for BattleEvents
+
+Animation:
+    mechanic: operates on a timer and performs animations
+
+
+flow-chart:
+    -"battle-round"?
+    -"render-cycle"?
+    -"StateEvent"?

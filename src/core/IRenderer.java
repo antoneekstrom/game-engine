@@ -73,7 +73,7 @@ public interface IRenderer <R extends IRenderer<R>> {
      * 
      * @param window the window
      */
-    public void initialize(Window<?> window);
+    public void build(Window<R> window);
 
     // TODO incorrect
     /**
@@ -82,19 +82,12 @@ public interface IRenderer <R extends IRenderer<R>> {
      * <p>By starting the rendering process with this method you can then proceed to render {@link IGraphic} objects with {@link #render(IGraphic)} and show them on the {@link Window}.
      * 
      */
-    public default void renderMethod(Consumer<R> renderMethod) {
-        getWindow().render();
-        setRenderMethod(renderMethod);
-    }
-
-    // TODO
-    /**
-     * 
-     */
-    public default void startRender() {
-        Consumer<R> method = getRenderMethod();
-        if (method != null)
-        method.accept(getSelf());
+    public default void startRendering(Consumer<R> renderConsumer) {
+        // let the consumer do the rendering and automatically process the graphics afterwards
+        getWindow().render((r) -> {
+            renderConsumer.accept(r);
+            processRendering();
+        });
     }
 
     /**
@@ -162,18 +155,6 @@ public interface IRenderer <R extends IRenderer<R>> {
     public ArrayList<RenderEvent<R>> getRenderQueue();
 
     /**
-     * 
-     * @param renderMethod
-     */
-    public void setRenderMethod(Consumer<R> renderMethod);
-
-    /**
-     * 
-     * @return
-     */
-    public Consumer<R> getRenderMethod();
-
-    /**
      * Get the type of renderer this is.
      * 
      * @return the type
@@ -185,14 +166,14 @@ public interface IRenderer <R extends IRenderer<R>> {
      * 
      * @param window the window
      */
-    public void setWindow(Window<?> window);
+    public void setWindow(Window<R> window);
 
     /**
      * Get the current window of this renderer.
      * 
      * @return the window
      */
-    public Window<?> getWindow();
+    public Window<R> getWindow();
 
     /**
      * Set the camera.

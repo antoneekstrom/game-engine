@@ -51,7 +51,6 @@ public interface IState extends Serializable {
      * @param a
      */
     public default void push(IStateEvent a) {
-        
         for (IStateListener l : stateListeners()) {
             l.eventPushed(a);
         }

@@ -52,6 +52,11 @@ public class SwingWindow extends Window<SwingRenderer> {
     private ArrayList<Consumer<Vector2D>> resizeListeners;
 
     /**
+     * Temp variable for the consumer to be invoked in paint(Graphics)
+     */
+    private Consumer<SwingRenderer> renderConsumer;
+
+    /**
      * Create a window.
      * 
      * @param title the title
@@ -63,7 +68,7 @@ public class SwingWindow extends Window<SwingRenderer> {
     }
 
     @Override
-    public void initialize(Game game) {
+    public void build(Game game) {
 
         this.game = game;
 
@@ -95,9 +100,45 @@ public class SwingWindow extends Window<SwingRenderer> {
     }
 
     @Override
-    public void render() {
+    public void render(Consumer<SwingRenderer> renderConsumer) {
         // Calling repaint on the panel will call the paint(g) method below with a graphics object that will be used to render things
         getPanel().repaint();
+        this.renderConsumer = renderConsumer;
+    }
+
+    /**
+     * Paint graphics. This method is called by {@link #render(SwingRenderer)}.
+     * 
+     * @param g the graphics component
+     */
+    public void paint(Graphics2D g) {
+        SwingRenderer renderer = getRenderer();
+        renderer.setGraphics(g);
+
+        if (renderConsumer != null)
+            renderConsumer.accept(renderer);
+    }
+
+    /**
+     * @param panel
+     */
+    private void initializePanel(GamePanel panel) {
+        setPanel(panel);
+        getPanel().initialize(getGame());
+        this.keyInput = panel.getKeyInput();
+        this.mouseInput = panel.getMouseInput();
+    }
+
+    /**
+     * 
+     */
+    private void setResizeCallback() {
+        getPanel().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                onResize(getSizeVector());
+            }
+        });
     }
 
     @Override
@@ -142,34 +183,6 @@ public class SwingWindow extends Window<SwingRenderer> {
     @Override
     public void removeResizeListener(Consumer<Vector2D> consumer) {
         resizeListeners.remove(consumer);
-    }
-
-    /**
-     * Paint graphics. This method is called by {@link #render(SwingRenderer)}.
-     * 
-     * @param g the graphics component
-     */
-    public void paint(Graphics2D g) {
-
-        SwingRenderer renderer = getRenderer();
-        renderer.setGraphics(g);
-        renderer.startRender();
-    }
-
-    private void initializePanel(GamePanel panel) {
-        setPanel(panel);
-        getPanel().initialize(getGame());
-        this.keyInput = panel.getKeyInput();
-        this.mouseInput = panel.getMouseInput();
-    }
-
-    private void setResizeCallback() {
-        getPanel().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                onResize(getSizeVector());
-            }
-        });
     }
 
     /**
