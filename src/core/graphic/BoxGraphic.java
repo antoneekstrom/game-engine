@@ -2,6 +2,7 @@ package core.graphic;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.geom.AffineTransform;
 
 import core.IGraphic;

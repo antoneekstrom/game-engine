@@ -3,7 +3,7 @@ package core.util;
 import java.util.ArrayList;
 
 /**
- * Observable TODO
+ * Can be observed by an {@link Observer}. This observer can then be notified by the observable.
  */
 public class Observable<A> {
 
@@ -13,16 +13,16 @@ public class Observable<A> {
         observers = new ArrayList<>();
     }
 
-    public void addObserver(Observer<A> o) {
+    public void observe(Observer<A> o) {
         observers.add(o);
     }
 
-    public void removeObserver(Observer<A> o) {
+    public void unobserve(Observer<A> o) {
         observers.remove(o);
     }
 
     protected void notifyObservers(A arg) {
-        observers.forEach(o -> o.update(this, arg));
+        observers.forEach(o -> o.notify(this, arg));
     }
     
 }

@@ -7,6 +7,8 @@ import core.Game;
  */
 public interface IStateEvent {
 
+    public static final String TYPE = "BATTLE_EVENT";
+
     /**
      * Push this event to a state.
      * 
@@ -27,7 +29,9 @@ public interface IStateEvent {
      * Get the type of event
      * @return the type
      */
-    public String getType();
+    public default String getType() {
+        return TYPE;
+    }
 
     /**
      * Process this event.
