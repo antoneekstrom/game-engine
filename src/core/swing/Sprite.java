@@ -34,6 +34,7 @@ public class Sprite extends BoxGraphic {
 
     @Override
     public void render(Graphics2D g, SwingRenderer renderer, Vector2D screenPos) {
+        super.render(g, renderer, screenPos);
         DrawHelper.drawImage(getImage(), getBox(screenPos), g);
     }
 
