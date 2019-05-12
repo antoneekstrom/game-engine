@@ -7,11 +7,9 @@ import core.graphic.ICamera;
 import core.math.Vector2D;
 import core.obj.IGameObject;
 
-// TODO polish/remove trash/unnecessary methods
-
 /**
- * A renderer that is capable of rendering things.
- * 
+ * A renderer that is capable of rendering things. It uses a {@link Window} to render {@link IGraphic} objects
+ * onto it. Many methods have a default and should not be overrided.
  */
 public interface IRenderer <R extends IRenderer<R>> {
 
@@ -75,7 +73,6 @@ public interface IRenderer <R extends IRenderer<R>> {
      */
     public void build(Window<R> window);
 
-    // TODO incorrect
     /**
      * Start the rendering cycle and target the currently set {@link Window} of this renderer.
      * 
@@ -102,9 +99,6 @@ public interface IRenderer <R extends IRenderer<R>> {
     public default void pushGraphic(IGraphic<R> graphic, Vector2D screenPos) {
         if (graphic != null)
             getRenderQueue().add(new RenderEvent<R>(getSelf(), graphic, screenPos));
-
-        // OLD
-        //graphic.render(this, screenPos);
     }
 
     /**

@@ -7,12 +7,13 @@ import core.IRenderer;
 import core.obj.ObjectStorage;
 
 /**
- * UIStorage TODO
+ * Handles and stores multiple {@link UserInterface} objects. One UI can be set as active
+ * and that one will be rendered and updated. More work is needed.
  */
 public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterface<R>, R> {
 
     /**
-     * 
+     * The UI that is active.
      */
     private UserInterface<R> active;
 

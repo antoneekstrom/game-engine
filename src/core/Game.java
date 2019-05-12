@@ -2,11 +2,6 @@ package core;
 
 import core.swing.SwingRenderer;
 
-// TODO make logic independent of gamepanel to allow for any type of renderer
-// TODO make game independent of JFrame to allow for any type of renderer / UI framework
-
-// TODO generic typed Game? i.e. Game<Logic, Renderer>
-
 /**
  * A {@code Game} is responsible for encapsulating and handling the communication between and management of {@link Logic} and {@link SwingRenderer}.
  * 

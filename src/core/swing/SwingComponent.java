@@ -1,9 +1,10 @@
 package core.swing;
 
 import core.ui.GraphicComponent;
+import core.ui.IComponent;
 
 /**
- * SwingComponent TODO
+ * A concrete {@link IComponent} that uses the {@link SwingRenderer}.
  */
 public abstract class SwingComponent extends GraphicComponent<SwingRenderer> {
 

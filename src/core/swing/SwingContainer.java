@@ -1,7 +1,5 @@
 package core.swing;
 
-import core.IRenderer;
-import core.IRenderer.Type;
 import core.ui.Container;
 
 /**

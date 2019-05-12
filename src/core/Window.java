@@ -7,7 +7,8 @@ import java.util.function.Consumer;
 import core.math.Vector2D;
 
 /**
- * A window. TODO TODO TODO nDiIARHEA POO pOOO pe
+ * A window. A {@code Window} is supposed to represent the window in which the application takes place
+ * and encapsulates everything regarding to that.
  */
 public abstract class Window <R extends IRenderer<R>> {
 

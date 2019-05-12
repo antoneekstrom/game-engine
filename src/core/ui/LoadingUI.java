@@ -8,7 +8,6 @@ import core.graphic.BoxGraphic;
 import core.swing.SwingRenderer;
 import core.swing.SwingUI;
 import core.ui.layout.CenteredLayout;
-import core.ui.layout.DefaultLayout;
 
 /**
  * Shows a loading bar.

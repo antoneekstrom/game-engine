@@ -1,8 +1,6 @@
 package core.swing;
 
 import core.IGraphic;
-import core.IRenderer;
-import core.IRenderer.Type;
 import core.math.Vector2D;
 import core.obj.IGameObject;
 import core.ui.HudComponent;

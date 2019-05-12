@@ -8,7 +8,7 @@ import core.math.Vector2D;
 import core.swing.SwingRenderer;
 
 /**
- * TODO
+ * A {@link Component} that is a button.
  */
 public class ButtonComponent extends TextComponent {
 
@@ -18,10 +18,9 @@ public class ButtonComponent extends TextComponent {
     private Runnable action;
 
     /**
-     * 
-     * @param pos
-     * @param text
-     * @param action
+     * @param pos the position of the button
+     * @param text the text
+     * @param action the action that will be invoked when the button is activated
      */
     public ButtonComponent(Vector2D pos, String text, Runnable action) {
         this(text, action);
@@ -29,9 +28,8 @@ public class ButtonComponent extends TextComponent {
     }
 
     /**
-     * 
-     * @param text
-     * @param action
+     * @param text the text
+     * @param action the action that will be invoked when the button is activated
      */
     public ButtonComponent(String text, Runnable action) {
         super(text);

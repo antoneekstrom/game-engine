@@ -7,7 +7,6 @@ import core.graphic.BoxGraphic;
 import core.graphic.GraphicContainer;
 import core.math.Vector2D;
 import core.swing.SwingRenderer;
-import core.ui.layout.CenteredLayout;
 import core.ui.layout.NoLayout;
 
 /**

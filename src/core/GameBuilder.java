@@ -1,7 +1,10 @@
 package core;
 
 /**
- * GameBuilder TODO
+ * GameBuilder assembles a {@link Game} instance from a collection of components.
+ * These components are {@link Logic}, {@link Window} and {@link IRenderer}. Creating
+ * a {@link Game} instance by yourself should probably not be attempted as it is very confusing
+ * and does not work well.
  */
 public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
 
@@ -10,10 +13,10 @@ public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
     R renderer;
 
     /**
-     * 
-     * @return
+     * Create the instance.
+     * @return the {@link Game} instance
      */
-    public Game build() { //TODO
+    public Game build() {
 
         Game game = new Game(getLogic(), getRenderer());
 

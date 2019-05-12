@@ -10,27 +10,26 @@ import core.math.Vector2D;
 
 /**
  * The {@code ImageResource} acts as a pointer to an image and allows for an image to be passed around and not having to be loaded until it has to.
- * TODO doc
  */
 public class ImageResource {
 
     /**
-     * 
+     *  The file of the image.
      */
     private final File file;
 
     /**
-     * 
+     * The image.
      */
     private BufferedImage image;
 
     /**
-     * 
+     * If the image has been loaded.
      */
     private boolean loaded = false;
 
     /**
-     * @param file
+     * @param file the file of the image
      */
     protected ImageResource(File file) {
         this.file = file;

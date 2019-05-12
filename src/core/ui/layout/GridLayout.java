@@ -5,7 +5,8 @@ import core.math.Vector2D;
 import core.ui.IComponent;
 
 /**
- * A list. TODO
+ * A layout that puts it's items like a list. Items will be put on one row until they no longer
+ * fit and then a new row will begin.
  */
 public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
 

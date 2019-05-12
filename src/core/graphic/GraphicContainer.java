@@ -7,7 +7,7 @@ import core.IRenderer;
 import core.math.Vector2D;
 
 /**
- * GraphicContainer TODO
+ * A graphic that contains multiple graphics.
  */
 public class GraphicContainer<R extends IRenderer<R>> implements IGraphic<R> {
 

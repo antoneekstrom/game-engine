@@ -3,9 +3,7 @@ package core.math;
 import java.awt.Rectangle;
 
 /**
- * @author Anton Ekström
- * 
- * Box TODO comment
+ * A 2D box that has a position and size. Quite epic.
  */
 public class Box {
 

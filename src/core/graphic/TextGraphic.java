@@ -9,7 +9,7 @@ import core.swing.SwingGraphic;
 import core.swing.SwingRenderer;
 
 /**
- * Text graphic. TODO
+ * Text graphic.
  */
 public class TextGraphic extends SwingGraphic {
 

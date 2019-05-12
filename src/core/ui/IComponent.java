@@ -4,7 +4,8 @@ import core.IRenderer;
 import core.obj.IGameObject;
 
 /**
- * UIComponent TODO comment
+ * An {@link IGameObject} that is supposed to be a part of an {@link UserInterface}.
+ * This object represents an element on the UI.
  */
 public interface IComponent<R extends IRenderer<R>> extends IGameObject<R> {
 
@@ -29,12 +30,13 @@ public interface IComponent<R extends IRenderer<R>> extends IGameObject<R> {
     public void refresh();
 
     /**
-     * 
-     * @return
+     * Get the UI this component currently resides in.
+     * @return the UI
      */
     public UserInterface<R> getUI();
 
     /**
+     * Set the UI this component belongs to.
      * @param ui the ui to set
      */
     public void setUI(UserInterface<R> ui);
