@@ -5,27 +5,33 @@ import java.awt.Font;
 import core.io.resources.Resources;
 import core.math.Vector2D;
 import core.ui.IComponent;
-import core.ui.UserInterface;
+import core.ui.style.DataUI;
 
 /**
- * This is an {@link UserInterface} that uses the {@link SwingRenderer}.
- * <p>This class is mainly for convenience so that I do not have write the same boilerplate all the time.
+ * SwingInfoUI
  */
-public abstract class SwingUI extends UserInterface<SwingRenderer> {
+public abstract class SwingDataUI<O> extends DataUI<SwingRenderer, O> {
 
     /**
      * The font.
      */
     private Font font;
 
-    /**
-     * Create a swing ui.
-     * 
-     * @param id the id to use
-     */
-    public SwingUI() {
-        super();
+    public SwingDataUI(O obj, boolean reloadOnShow) {
+        super(obj, reloadOnShow);
         setFont(Resources.getFont());
+    }
+
+    public SwingDataUI(O obj) {
+        this(obj, false);
+    }
+    
+    public SwingDataUI(boolean reloadOnShow) {
+        this(null, reloadOnShow);
+    }
+
+    public SwingDataUI() {
+        this(null, false);
     }
 
     @Override
@@ -52,5 +58,4 @@ public abstract class SwingUI extends UserInterface<SwingRenderer> {
     public void setFont(Font font) {
         this.font = font;
     }
-    
 }

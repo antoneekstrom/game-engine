@@ -18,23 +18,12 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     private int layerIndex = 0;
 
     /**
-     * Name/id of the interface. Used to find it in UIManagers.
-     */
-    private final String id;
-
-    /**
-     * Id.
-     */
-    public static final String ID = "ID";
-
-    /**
      * Create a user interface.
      * 
      * @param id the (hopefully) unique identifier/name of the interface
      */
-    public UserInterface(String id) {
+    public UserInterface() {
         super(false);
-        this.id = id;
 
         setLayerIndex(420);
         setVisible(false);
@@ -49,6 +38,11 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
      * A setup method where the components of the interface can be added.
      */
     public abstract void setup();
+
+    /**
+     * @return
+     */
+    public abstract String getId();
 
     /**
      * Rebuild the UI components.
@@ -134,13 +128,6 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     @Override
     public int getLayerIndex() {
         return layerIndex;
-    }
-
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
     }
 
     /**

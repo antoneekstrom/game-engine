@@ -30,6 +30,7 @@ public interface IState extends Serializable {
      */
     public default void subscribe(IStateListener l) {
         stateListeners().add(l);
+        System.out.println("statelisteners: " + stateListeners().size());
     }
 
     /**
@@ -38,6 +39,7 @@ public interface IState extends Serializable {
      */
     public default void unsubscribe(IStateListener l) {
         stateListeners().remove(l);
+        System.out.println("statelisteners: " + stateListeners().size());
     }
 
     /**

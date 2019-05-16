@@ -97,6 +97,13 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     }
 
     /**
+     * @param uiClass
+     */
+    public void show(Class<? extends UserInterface<R>> uiClass) {
+        show(getByClass(uiClass));
+    }
+
+    /**
      * @return the active
      */
     public UserInterface<R> getActive() {

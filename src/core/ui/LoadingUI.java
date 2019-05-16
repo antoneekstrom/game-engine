@@ -27,11 +27,9 @@ public class LoadingUI extends SwingUI {
     TextComponent statusTextComp;
     String statusText = "loading..";
 
-    /**
-     * 
-     */
-    public LoadingUI() {
-        super(ID);
+    @Override
+    public String getId() {
+        return ID;
     }
 
     @Override

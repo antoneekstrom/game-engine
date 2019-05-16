@@ -19,27 +19,42 @@ public abstract class DataUI <R extends IRenderer<R>, O> extends UserInterface<R
     /**
      * @param obj object
      */
-    public DataUI(O obj) {
-        super(ID);
+    public DataUI(O obj, boolean reloadOnShow) {
+        super();
         this.obj = obj;
+        this.reloadOnShow = reloadOnShow;
     }
 
-    public DataUI(O obj, boolean reloadOnShow) {
-        this(obj);
+    public DataUI(O obj) {
+        this(obj, false);
+    }
+    
+    public DataUI(boolean reloadOnShow) {
+        this(null, reloadOnShow);
     }
 
     @Override
     public void setup() {
         if (getObj() != null)
-        setup(getLayout(), getObj());
+        setup(getObj());
     }
 
     /**
      * @param l
      * @param obj
      */
-    public abstract void setup(AbstractLayout<R> l, O obj);
+    public abstract void setup(O obj);
 
+    /**
+     * 
+     * @param obj
+     */
+    public abstract void onShow(O obj);
+
+    /**
+     * 
+     * @param obj
+     */
     public void show(O obj) {
         onShow();
         setObj(obj);
@@ -47,15 +62,10 @@ public abstract class DataUI <R extends IRenderer<R>, O> extends UserInterface<R
 
     @Override
     protected void onShow() {
-        super.onShow();
         onShow(getObj());
+        refresh();
+        if (reloadOnShow) reload();
     }
-
-    /**
-     * 
-     * @param obj
-     */
-    public abstract void onShow(O obj);
 
     /**
      * @return the obj
