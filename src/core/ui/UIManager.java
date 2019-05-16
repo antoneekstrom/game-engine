@@ -52,6 +52,20 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     }
 
     /**
+     * Get an UI by class.
+     * @param <C> the class of the ui
+     * @param uiClass the class object
+     * @return the ui of the class, or null
+     */
+    @SuppressWarnings("unchecked")
+    public <C extends UserInterface<R>> C getByClass(Class<C> uiClass) {
+        for (UserInterface<R> ui : getInterfaces()) {
+            if (uiClass.isAssignableFrom(ui.getClass())) return (C) ui;
+        }
+        return null;
+    }
+
+    /**
      * Rebuild the UI components of every {@link UserInterface}.
      */
     public void reload() {
@@ -73,6 +87,13 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
         getActive().setVisible(false);
         setActive(ui);
         getActive().setVisible(true);
+    }
+
+    /**
+     * @param id
+     */
+    public void show(String id) {
+        show(getById(id));
     }
 
     /**

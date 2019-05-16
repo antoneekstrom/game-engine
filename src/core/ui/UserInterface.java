@@ -23,6 +23,11 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
     private final String id;
 
     /**
+     * Id.
+     */
+    public static final String ID = "ID";
+
+    /**
      * Create a user interface.
      * 
      * @param id the (hopefully) unique identifier/name of the interface

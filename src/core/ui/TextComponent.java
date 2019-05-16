@@ -240,6 +240,13 @@ public class TextComponent extends SwingComponent {
     }
 
     /**
+     * @param fontSize
+     */
+    public void setFontSize(float fontSize) {
+        setFont(getFont().deriveFont(fontSize));
+    }
+
+    /**
      * @param color
      */
     public void setBackground(Color color) {

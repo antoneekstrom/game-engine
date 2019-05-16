@@ -4,6 +4,7 @@ import java.awt.Font;
 
 import core.io.resources.Resources;
 import core.math.Vector2D;
+import core.ui.IComponent;
 import core.ui.UserInterface;
 
 /**
@@ -31,6 +32,11 @@ public abstract class SwingUI extends UserInterface<SwingRenderer> {
     public void render(SwingRenderer renderer, Vector2D screenPos) {
         if (font != null) renderer.getGraphics().setFont(getFont());
         super.render(renderer, screenPos);
+    }
+
+    @Override
+    public void add(IComponent<SwingRenderer> comp) {
+        super.add(comp);
     }
 
     /**

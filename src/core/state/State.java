@@ -34,11 +34,19 @@ public class State implements IState {
         int initialSize = events.size();
 
         while (events.size() > 0) {
-            events.pop().process();
+            processEvent(events.pop());
         }
 
         if (initialSize > 0)
         IState.super.push(new StateProcessedEvent());
+    }
+
+    /**
+     * Process a singular event.
+     * @param e the event
+     */
+    protected void processEvent(IStateEvent e) {
+        e.process();
     }
 
     @Override
