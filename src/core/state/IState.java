@@ -3,13 +3,13 @@ package core.state;
 import java.io.Serializable;
 import java.util.Collection;
 
-import core.Logic;
+import core.AbstractLogic;
 
 /**
- * The current state of the {@link Logic}.
+ * The current state of the {@link AbstractLogic}.
  * 
  * @see State
- * @see Logic
+ * @see AbstractLogic
  * @see IStateEvent
  */
 public interface IState extends Serializable {

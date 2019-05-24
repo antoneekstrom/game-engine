@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import core.Game;
-import core.Logic;
+import core.AbstractLogic;
 
 /**
  * Contains the state of the {@link Game}. Can be handled, serialized and
  * deserialized with a {@link StateHandler}.
  * <p>
- * Used in {@link Logic} to store game data.
+ * Used in {@link AbstractLogic} to store game data.
  */
 public class State implements IState {
 

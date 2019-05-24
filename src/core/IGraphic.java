@@ -8,7 +8,7 @@ import core.obj.IGameObject;
  * 
  * <p>The main goal of encapsulating the graphics into it's own object is to overcomplicate things even more.
  * 
- * <p>The other goal is to be able to render things in a certain order without having to reorder the actual list of game objects in {@link Logic}.
+ * <p>The other goal is to be able to render things in a certain order without having to reorder the actual list of game objects in {@link AbstractLogic}.
  * This can be achieved by iterating over the objects, getting their {@code IGraphic} objects and queueing them into a list that can then be reorder however you want.
  */
 public interface IGraphic <R extends IRenderer<R>> {

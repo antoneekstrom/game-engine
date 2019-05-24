@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import core.obj.IGameObject;
 
 /**
- * Request to remove an object from the {@link Logic} at the end of the loop cycle.
+ * Request to remove an object from the {@link AbstractLogic} at the end of the loop cycle.
  * 
- * @see Logic
+ * @see AbstractLogic
  * @see IGameObject
  */
-public class RemovalRequest <R extends IRenderer<R>, L extends Logic<R>> extends Request<L> {
+public class RemovalRequest <R extends IRenderer<R>, L extends AbstractLogic<R>> extends Request<L> {
 
     /**
      * The objects to remove.

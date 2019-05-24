@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import core.Game;
 import core.IGraphic;
 import core.IRenderer;
-import core.Logic;
+import core.AbstractLogic;
 import core.math.Box;
 import core.math.Vector2D;
 
 /**
  * The {@link IGameObject} is the building block of a {@link Game}. A game object represents something that exists in the game world. Though, it can also be something that is not visible in the world and is only there to listen to user input or update some kind of logic.
  * 
- * <p>The {@code IGameObject} is meant to be added to a {@link Logic}. There it will automatically by updated by the logic and receive user input and other kinds of events.
+ * <p>The {@code IGameObject} is meant to be added to a {@link AbstractLogic}. There it will automatically by updated by the logic and receive user input and other kinds of events.
  */
 public interface IGameObject <R extends IRenderer<R>> {
 
     /**
-     * The update method is called frequently by {@link Logic}.
+     * The update method is called frequently by {@link AbstractLogic}.
      */
     public void update();
 

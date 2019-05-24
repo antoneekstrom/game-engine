@@ -32,7 +32,9 @@ public class StateHandler {
      * @param <S> the type of state
      * @param file the file that contains the serialized state
      * @return the state
-     * @exception ClassCastException Attempting to cast the state object to invalid class
+     * @exception IOException when something went wrong with reading the file
+     * @exception ClassNotFoundException thrown when the class being attempted to cast to does not exist
+     * @exception ClassCastException when attempting to cast the state object to invalid class
      */
     @SuppressWarnings("unchecked")
     public <S extends IState>S deserialize(File file) throws IOException, ClassNotFoundException, ClassCastException {

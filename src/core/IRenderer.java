@@ -91,7 +91,7 @@ public interface IRenderer <R extends IRenderer<R>> {
      * Render an {@link IGraphic} object to the current {@link Window}.
      * 
      * <p>Before rendering a graphic, the rendering process has to be started with {@link #render()}. Usually, the process has already been started when rendering.
-     * This method is called before {@link Logic#render(javax.swing.Renderer)}.
+     * This method is called before {@link AbstractLogic#render(javax.swing.Renderer)}.
      * 
      * @param graphic the graphic to render
      * @param screenPos the position on the screen to render the graphic

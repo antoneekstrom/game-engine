@@ -9,7 +9,7 @@ import core.Game;
 import core.IGraphic;
 import core.IMouseInput;
 import core.IRenderer;
-import core.Logic;
+import core.AbstractLogic;
 import core.Window;
 import core.math.Box;
 import core.math.Vector2D;
@@ -279,7 +279,7 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      * @return the logic
      */
     @SuppressWarnings("unchecked")
-    protected <L extends Logic<R>> L getLogic() {
+    protected <L extends AbstractLogic<R>> L getLogic() {
         return (L) Game.getInstance().getLogic();
     }
 

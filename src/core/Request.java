@@ -3,9 +3,9 @@ package core;
 import java.util.function.Consumer;
 
 /**
- * A request that is to be processed at the end of a loop in {@link Logic}.
+ * A request that is to be processed at the end of a loop in {@link AbstractLogic}.
  */
-public class Request <L extends Logic<?>> {
+public class Request <L extends AbstractLogic<?>> {
 
     public static enum RequestType {
         REMOVAL, OTHER

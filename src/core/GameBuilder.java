@@ -2,13 +2,13 @@ package core;
 
 /**
  * GameBuilder assembles a {@link Game} instance from a collection of components.
- * These components are {@link Logic}, {@link Window} and {@link IRenderer}. Creating
+ * These components are {@link AbstractLogic}, {@link Window} and {@link IRenderer}. Creating
  * a {@link Game} instance by yourself should probably not be attempted as it is very confusing
  * and does not work well.
  */
 public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
 
-    Logic<R> logic;
+    AbstractLogic<R> logic;
     W window;
     R renderer;
 
@@ -30,14 +30,14 @@ public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
     /**
      * @return the logic
      */
-    public Logic<R> getLogic() {
+    public AbstractLogic<R> getLogic() {
         return logic;
     }
 
     /**
      * @param logic the logic to set
      */
-    public void setLogic(Logic<R> logic) {
+    public void setLogic(AbstractLogic<R> logic) {
         this.logic = logic;
     }
 

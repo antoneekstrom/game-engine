@@ -3,13 +3,13 @@ package core;
 import core.swing.SwingRenderer;
 
 /**
- * A {@code Game} is responsible for encapsulating and handling the communication between and management of {@link Logic} and {@link SwingRenderer}.
+ * A {@code Game} is responsible for encapsulating and handling the communication between and management of {@link AbstractLogic} and {@link SwingRenderer}.
  * 
- * <p>Extend {@link Logic} and use a {@link SwingRenderer} with a {@link GameBuilder} to construct a {@code Game} instance. Finally, use {@link Game#run(Game)} to start the game.
+ * <p>Extend {@link AbstractLogic} and use a {@link SwingRenderer} with a {@link GameBuilder} to construct a {@code Game} instance. Finally, use {@link Game#run(Game)} to start the game.
  * 
  * @see GameBuilder
  * @see SwingRenderer
- * @see Logic
+ * @see AbstractLogic
  */
 public class Game {
 
@@ -17,13 +17,10 @@ public class Game {
     private static Game game;
 
     // game
-    private Logic<?> logic;
+    private AbstractLogic<?> logic;
 
     // graphics
     private IRenderer<?> renderer;
-
-    // if the game has been initialized
-    private boolean init = false;
 
     /**
      * Create a {@code Game} using a logic instance. Using this constructor is not recommended,
@@ -31,7 +28,7 @@ public class Game {
      * 
      * @param logic the logic to use
      */
-    public Game(Logic<?> logic, IRenderer<?> renderer) {
+    public Game(AbstractLogic<?> logic, IRenderer<?> renderer) {
         setLogic(logic);
         setRenderer(renderer);
     }
@@ -41,13 +38,12 @@ public class Game {
      * 
      * @param logic the logic to use
      * 
-     * @see {@link Logic}
+     * @see {@link AbstractLogic}
      * @see {@link Game#setInstance(Game)}
      * @see {@link Game#create()}
      */
-    public static void create(Logic<?> logic, IRenderer<?> renderer) {
+    public static void create(AbstractLogic<?> logic, IRenderer<?> renderer) {
         setInstance(new Game(logic, renderer));
-        getInstance().create();
     }
 
     /**
@@ -55,33 +51,21 @@ public class Game {
      * 
      * @param game the game to run
      * 
-     * @see {@link Game#create()}
-     * @see {@link Game#initialize()}
-     * @see {@link Game#show()}.
      * @see {@link Game#setInstance(Game)}.
+     * @see {@link Game#run()}
+     * @see {@link Game#show()}.
      */
     public static void run(Game game) {
         Game.setInstance(game);
-        game.create();
-        game.initialize();
+        game.run();
         game.show();
     }
 
     /**
      * Run the logic of the game.
      */
-    public void initialize() {
-        getLogic().initialize();
-    }
-
-    /**
-     * Create/initialize the game.
-     */
-    public void create() {
-
-        if (isCreated()) return;
-
-        init = true;
+    public void run() {
+        getLogic().run();
     }
 
     /**
@@ -112,21 +96,14 @@ public class Game {
     /**
      * @return the logic
      */
-    public Logic<?> getLogic() {
+    public AbstractLogic<?> getLogic() {
         return logic;
-    }
-
-    /**
-     * @return the init
-     */
-    public boolean isCreated() {
-        return init;
     }
 
     /**
      * @param logic the logic to set
      */
-    public void setLogic(Logic<?> logic) {
+    public void setLogic(AbstractLogic<?> logic) {
         this.logic = logic;
     }
 
@@ -164,14 +141,14 @@ public class Game {
     }
 
     /**
-     * Get the {@link Logic} instance.
+     * Get the {@link AbstractLogic} instance.
      * 
      * @param <L> The type of logic. Purpose for this generic type is to allow the user to get their logic without casting it, which is kind of annoying tbh.
      * 
      * @return the logic instance
      */
     @SuppressWarnings("unchecked")
-    public static <L extends Logic<?>> L getLogicInstance() {
+    public static <L extends AbstractLogic<?>> L getLogicInstance() {
         return (L) getInstance().getLogic();
     }
 
