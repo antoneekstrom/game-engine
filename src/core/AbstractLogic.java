@@ -183,6 +183,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
      */
     public void add(IGameObject<R> obj) {
         objects.add(obj);
+        obj.onMount();
     }
 
     /**

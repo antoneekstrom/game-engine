@@ -13,6 +13,8 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
     double curX = 0, curY = 0;
     int rowNum = 0, colNum = 0;
 
+    int maxColNum = 10000;
+
     Vector2D itemSize;
     double itemSpacing = 0;
 
@@ -36,6 +38,9 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
 
     @Override
     public void align(IComponent<R> comp, Alignment align) {
+
+        if (itemSize.getX() >= getContainer().getSize().getX()) itemSize.setX(getContainer().getSize().getX() - 1);
+
         Vector2D pos = comp.getPosition();
 
         double x = colNum * (itemSize.getX() + itemSpacing);
@@ -46,7 +51,7 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
 
         colNum++;
 
-        if (curX + itemSize.getX() > getContainer().getSize().getX()) {
+        if (curX + itemSize.getX() > getContainer().getSize().getX() || colNum >= maxColNum) {
             curY = 0;
             colNum = 0;
             rowNum++;
@@ -58,5 +63,11 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
         }
     }
 
+    /**
+     * @param maxColNum the maxColNum to set
+     */
+    public void setMaxColNum(int maxColNum) {
+        this.maxColNum = maxColNum;
+    }
     
 }

@@ -63,7 +63,10 @@ public class TextGraphic extends SwingGraphic {
      */
     public Vector2D getTextSize(Graphics2D g) {
 
-        if (g == null || g.getFont() == null) return Vector2D.create(0, 0);
+        if (g == null) return Vector2D.create(0, 0);
+        if (getFont() != null) {
+            g.setFont(getFont());
+        }
 
         FontMetrics m = g.getFontMetrics();
         return Vector2D.create(m.stringWidth(getText()), m.getHeight());

@@ -136,7 +136,8 @@ public class SwingWindow extends Window<SwingRenderer> {
         getPanel().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                onResize(getSizeVector());
+                Vector2D s = new Vector2D(e.getComponent().getSize());
+                onResize(s);
             }
         });
     }

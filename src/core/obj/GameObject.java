@@ -73,6 +73,10 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
     }
 
     @Override
+    public void onMount() {
+    }
+
+    @Override
     public void remove() {
         getLogic().remove(this);
     }

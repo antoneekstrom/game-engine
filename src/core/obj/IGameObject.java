@@ -38,6 +38,11 @@ public interface IGameObject <R extends IRenderer<R>> {
         return getGraphic() != null;
     }
 
+    /**
+     * Called when the object is added to a collection of other game objects.
+     */
+    public void onMount();
+
     // Mouse functions, self explanatory? I can't be bothered to doc
 
     public default void mouseMoved(MouseEvent e) {}

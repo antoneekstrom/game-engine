@@ -38,6 +38,10 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
         return getActive().getGraphic();
     }
 
+    @Override
+    public void onMount() {
+    }
+
     /**
      * Get an ui by searching for it with an id.
      * 
@@ -87,6 +91,12 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
         getActive().setVisible(false);
         setActive(ui);
         getActive().setVisible(true);
+    }
+
+    @Override
+    public void add(UserInterface<R> obj) {
+        if (getObjects().size() < 1) setActive(obj);
+        super.add(obj);
     }
 
     /**

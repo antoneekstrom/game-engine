@@ -119,6 +119,7 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
      */
     public void add(O obj) {
         getObjects().add(obj);
+        obj.onMount();
     }
 
     /**

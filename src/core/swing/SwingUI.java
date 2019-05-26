@@ -5,6 +5,7 @@ import java.awt.Font;
 import core.io.resources.Resources;
 import core.math.Vector2D;
 import core.ui.IComponent;
+import core.ui.TextComponent;
 import core.ui.UserInterface;
 
 /**
@@ -37,6 +38,12 @@ public abstract class SwingUI extends UserInterface<SwingRenderer> {
     @Override
     public void add(IComponent<SwingRenderer> comp) {
         super.add(comp);
+        if (TextComponent.class.isAssignableFrom(comp.getClass())) onTextComponentAdded((TextComponent) comp);
+    }
+
+    protected void onTextComponentAdded(TextComponent tc) {
+        tc.setFont(getFont());
+        tc.refresh();
     }
 
     /**
