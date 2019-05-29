@@ -1,5 +1,6 @@
 package core.ui;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import core.IGraphic;
@@ -77,6 +78,26 @@ public class Container <R extends IRenderer<R>> extends ObjectStorage<IComponent
         if (g != null)
         g.render(renderer, screenPos);
         super.render(renderer, screenPos);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        super.mouseMoved(e);
+        updateMouseHover(getPosition());
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        super.mouseDragged(e);
+        updateMouseHover(getPosition());
+    }
+
+    @Override
+    public void updateMouseHover(Vector2D pos) {
+        super.updateMouseHover(pos);
+        for (IComponent<R> c : getChildren()) {
+            c.updateMouseHover(pos.copy().add(c.getPosition()));
+        }
     }
 
     /**

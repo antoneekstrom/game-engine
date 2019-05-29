@@ -1,6 +1,7 @@
 package core.ui;
 
 import core.IRenderer;
+import core.math.Vector2D;
 import core.obj.IGameObject;
 
 /**
@@ -28,6 +29,12 @@ public interface IComponent<R extends IRenderer<R>> extends IGameObject<R> {
      * Instead you should do the updating in this method which is called less often.
      */
     public void refresh();
+
+    /**
+     * TODO
+     * @param pos
+     */
+    public void updateMouseHover(Vector2D pos);
 
     /**
      * Get the UI this component currently resides in.

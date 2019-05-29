@@ -128,7 +128,7 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
     /**
      * Update the {@link #updateMouseHover()} state.
      */
-    protected void updateMouseHover(Vector2D pos) {
+    public void updateMouseHover(Vector2D pos) {
         Rectangle r = getBox().getRectangle();
         r.setLocation((int) pos.getX(), (int) pos.getY());
 

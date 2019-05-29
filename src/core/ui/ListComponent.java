@@ -24,6 +24,12 @@ public class ListComponent <R extends IRenderer<R>> extends Container<R> {
         setLayout(l);
     }
 
+    public ListComponent(Vector2D listSize, double itemSpacing, double itemHeight) {
+        super(listSize);
+        GridLayout<R> l = new GridLayout<>(itemSpacing, itemHeight);
+        setLayout(l);
+    }
+
     @Override
     public void setLayout(AbstractLayout<R> layout) {
         if (GridLayout.class.isAssignableFrom(layout.getClass()))

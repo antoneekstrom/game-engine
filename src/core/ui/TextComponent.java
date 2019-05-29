@@ -48,7 +48,7 @@ public class TextComponent extends SwingComponent {
     /**
      * If the background and size of the component should be resized automatically.
      */
-    private boolean fitToText = true;
+    private boolean fitToTextX = true, fitToTextY = true;
 
     /**
      * If the text inside the component should be centered.
@@ -135,7 +135,6 @@ public class TextComponent extends SwingComponent {
     @Override
     public void update() {
         super.update();
-        updateMouseHover(getPosition());
     }
 
     /**
@@ -148,7 +147,7 @@ public class TextComponent extends SwingComponent {
 
         this.text.setText(text);
 
-        if (fitToText) {
+        if (fitToTextX || fitToTextY) {
             resize();
         }
     }
@@ -162,7 +161,10 @@ public class TextComponent extends SwingComponent {
         text.getTextSize().set(text.getTextSize(getRenderer().getGraphics()));
 
         Vector2D size = text.getTextSize().copy();
-        getBox().getSize().set(size).add(getPadding());
+        Vector2D bsize = getBox().getSize();
+        if (fitToTextX) bsize.setX(size.getX());
+        if (fitToTextY) bsize.setY(size.getY());
+        bsize.add(getPadding());
     }
 
     /**
@@ -226,10 +228,12 @@ public class TextComponent extends SwingComponent {
     }
 
     /**
-     * @param fitToText the fitToText to set
+     * @param x
+     * @param y
      */
-    public void setFitToText(boolean fitToText) {
-        this.fitToText = fitToText;
+    public void setFitToText(boolean x, boolean y) {
+        this.fitToTextX = x;
+        this.fitToTextY = y;
     }
 
     /**

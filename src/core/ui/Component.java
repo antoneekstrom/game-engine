@@ -1,5 +1,7 @@
 package core.ui;
 
+import java.awt.event.MouseEvent;
+
 import core.IRenderer;
 import core.math.Box;
 import core.math.Vector2D;
@@ -38,7 +40,6 @@ public abstract class Component<R extends IRenderer<R>> extends GameObject<R> im
 
     @Override
     public void update() {
-        super.update();
     }
 
     @Override
@@ -52,9 +53,17 @@ public abstract class Component<R extends IRenderer<R>> extends GameObject<R> im
     }
 
     @Override
-    protected void updateMouseHover(Vector2D pos) {
+    public void updateMouseHover(Vector2D pos) {
         if (isVisible())
         super.updateMouseHover(pos);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
     }
 
     @Override

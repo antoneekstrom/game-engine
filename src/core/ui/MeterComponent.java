@@ -113,7 +113,7 @@ public class MeterComponent extends Container<SwingRenderer> {
         TextComponent t = new TextComponent(supplier);
         t.setColor(textColor);
         t.getSize().set(getSize());
-        t.setFitToText(false);
+        t.setFitToText(false, false);
         t.setCenterText(true);
         add(t);
         return t;

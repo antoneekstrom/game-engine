@@ -1,6 +1,7 @@
 package core.ui.layout;
 
 import core.IRenderer;
+import core.math.Box;
 import core.math.Vector2D;
 import core.ui.IComponent;
 
@@ -18,10 +19,18 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
     Vector2D itemSize;
     double itemSpacing = 0;
 
+    boolean itemFullWidth = false;
+
     public GridLayout(Vector2D itemSize, double itemSpacing) {
         super();
         this.itemSize = itemSize;
         this.itemSpacing = itemSpacing;
+    }
+
+    public GridLayout(double itemSpacing, double itemHeight) {
+        this(Vector2D.create(0, itemHeight), itemSpacing);
+        itemFullWidth = true;
+        maxColNum = 2;
     }
 
     @Override
@@ -39,7 +48,12 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
     @Override
     public void align(IComponent<R> comp, Alignment align) {
 
-        if (itemSize.getX() >= getContainer().getSize().getX()) itemSize.setX(getContainer().getSize().getX() - 1);
+        Box compBox = comp.getBox();
+
+        compBox.setSize(itemSize);
+        if (itemFullWidth) compBox.setWidth(getContainer().getBox().getHeight());
+
+        if (compBox.getWidth() >= getContainer().getSize().getX()) compBox.setWidth(getContainer().getSize().getX() - 1);
 
         Vector2D pos = comp.getPosition();
 
@@ -53,7 +67,7 @@ public class GridLayout<R extends IRenderer<R>> extends AbstractLayout<R> {
 
         if (curX + itemSize.getX() > getContainer().getSize().getX() || colNum >= maxColNum) {
             curY = 0;
-            colNum = 0;
+            colNum = 0; 
             rowNum++;
 
             align(comp, align);
