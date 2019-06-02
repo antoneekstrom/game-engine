@@ -1,5 +1,7 @@
 package core;
 
+import core.graphic.Camera;
+
 /**
  * GameBuilder assembles a {@link Game} instance from a collection of components.
  * These components are {@link AbstractLogic}, {@link Window} and {@link IRenderer}. Creating
@@ -22,7 +24,7 @@ public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
 
         getWindow().build(game);
         getLogic().build(getWindow());
-        getRenderer().build(getWindow());
+        getRenderer().build(getWindow(), new Camera());
 
         return game;
     }

@@ -71,7 +71,7 @@ public interface IRenderer <R extends IRenderer<R>> {
      * 
      * @param window the window
      */
-    public void build(Window<R> window);
+    public void build(Window<R> window, ICamera camera);
 
     /**
      * Start the rendering cycle and target the currently set {@link Window} of this renderer.

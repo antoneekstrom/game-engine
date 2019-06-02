@@ -111,11 +111,20 @@ public class SwingRenderer implements IRenderer<SwingRenderer> {
         }
     }
 
+    /**
+     * 
+     */
+    protected void initialRender() {
+        getWindow().render(r -> {});
+    }
+
     @Override
-    public void build(Window<SwingRenderer> window) {
+    public void build(Window<SwingRenderer> window, ICamera camera) {
 
         setWindow(window);
-        setCamera(new Camera());
+        setCamera(camera);
+
+        initialRender();
 
         ready = window != null;
     }

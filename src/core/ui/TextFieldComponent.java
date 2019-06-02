@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
+import core.MouseInputHelper;
 import core.math.Vector2D;
 import core.swing.SwingRenderer;
 

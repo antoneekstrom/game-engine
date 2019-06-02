@@ -50,7 +50,8 @@ public class SwingMouseInput extends MouseAdapter implements IMouseInput {
         panel.addMouseListener(this);
         panel.addMouseMotionListener(this);
         
-        panel.setFocusable(true);
+        // was true previously
+        panel.setFocusable(false);
         panel.requestFocus();
     }
 
