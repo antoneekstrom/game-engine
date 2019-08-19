@@ -43,20 +43,6 @@ public interface IGameObject <R extends IRenderer<R>> {
      */
     public void onMount();
 
-    // Mouse functions, self explanatory? I can't be bothered to doc
-
-    public default void mouseMoved(MouseEvent e) {}
-
-    public default void mouseDragged(MouseEvent e) {}
-
-    public default void mouseReleased(MouseEvent e) {}
-
-    public default void mousePressed(MouseEvent e) {}
-
-    public default void keyPressed(KeyEvent e) {}
-
-    public default void keyReleased(KeyEvent e) {}
-
     /**
      * Remove an object. This method is supposed to check if this is the object that is being requested to be removed.
      * If this is a collection of objects (eg. {@link ObjectStorage}) this method should check if the object to be removed is a child of this one.

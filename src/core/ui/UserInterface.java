@@ -30,6 +30,8 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
 
         getBox().setSize(Game.getWindowInstance().getSizeVector());
 
+        connectMouse();
+
         setup();
         refresh();
     }
@@ -38,11 +40,6 @@ public abstract class UserInterface <R extends IRenderer<R>> extends Container<R
      * A setup method where the components of the interface can be added.
      */
     public abstract void setup();
-
-    /**
-     * @return
-     */
-    public abstract String getId();
 
     /**
      * Rebuild the UI components.

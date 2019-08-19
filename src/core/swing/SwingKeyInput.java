@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import core.Game;
 import core.GamePanel;
 import core.IKeyInput;
+import core.Key;
+import core.KeyInputEvent;
 import core.SwingWindow;
 import core.obj.IGameObject;
 
@@ -24,7 +26,12 @@ public class SwingKeyInput extends KeyAdapter implements IKeyInput {
     private JFrame frame;
     private GamePanel panel;
 
-    private ArrayList<Consumer<KeyEvent>> listeners;
+    private ArrayList<Consumer<KeyInputEvent>> listeners;
+
+    /**
+     * Keys that are currently being held down.
+     */
+    private ArrayList<Integer> keysDown;
 
     /**
      * @param game
@@ -36,6 +43,7 @@ public class SwingKeyInput extends KeyAdapter implements IKeyInput {
         this.game = game;
 
         listeners = new ArrayList<>();
+        keysDown = new ArrayList<>();
 
         frame = window.getFrame();
         panel = window.getPanel();
@@ -48,41 +56,47 @@ public class SwingKeyInput extends KeyAdapter implements IKeyInput {
     }
 
     @Override
+    public boolean keyIsDown(Key key) {
+        for (int k : keysDown) {
+            if (k == key.getKeyCode()) return true;
+        }
+        return false;
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
 
-        getListeners().forEach(c -> c.accept(e));
+        KeyInputEvent ke = new KeyInputEvent(new Key(e.getKeyCode()), e.getID() == KeyEvent.KEY_RELEASED ? KeyInputEvent.Type.RELEASED : KeyInputEvent.Type.PRESSED);
+        keysDown.add(ke.getKeyCode());
 
-        for (IGameObject<?> obj : game.getLogic().getObjects()) {
-            obj.keyPressed(e);
-        }
+        getListeners().forEach(c -> c.accept(ke));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         super.keyReleased(e);
 
-        getListeners().forEach(c -> c.accept(e));
+        KeyInputEvent ke = new KeyInputEvent(new Key(e.getKeyCode()), e.getID() == KeyEvent.KEY_RELEASED ? KeyInputEvent.Type.RELEASED : KeyInputEvent.Type.PRESSED);
+        keysDown.remove((Object) ke.getKeyCode());
 
-        for (IGameObject<?> obj : game.getLogic().getObjects()) {
-            obj.keyReleased(e);
-        }
+        getListeners().forEach(c -> c.accept(ke));
     }
 
     @Override
-    public void addKeyListener(Consumer<KeyEvent> listener) {
+    public void addKeyListener(Consumer<KeyInputEvent> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeKeyListener(Consumer<KeyEvent> listener) {
+    public void removeKeyListener(Consumer<KeyInputEvent> listener) {
         listeners.remove(listener);
     }
 
     /**
      * @return the listeners
      */
-    public ArrayList<Consumer<KeyEvent>> getListeners() {
+    public ArrayList<Consumer<KeyInputEvent>> getListeners() {
         return listeners;
     }
     

@@ -34,7 +34,7 @@ public class DraggableCamera <R extends IRenderer<R>> extends CameraObject<R> {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (!rightClick || (rightClick && SwingUtilities.isRightMouseButton(e)))
-            translate(getMouseInput().getDelta().negate());
+            translate(getMouse().getDelta().negate());
     }
     
 }

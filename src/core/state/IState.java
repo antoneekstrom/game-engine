@@ -1,9 +1,12 @@
 package core.state;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import core.AbstractLogic;
+import core.IRenderer;
+import core.obj.IGameObject;
 
 /**
  * The current state of the {@link AbstractLogic}.
@@ -12,7 +15,7 @@ import core.AbstractLogic;
  * @see AbstractLogic
  * @see IStateEvent
  */
-public interface IState extends Serializable {
+public interface IState <R extends IRenderer<R>> extends Serializable {
 
     /**
      * 
@@ -22,7 +25,22 @@ public interface IState extends Serializable {
     /**
      * 
      */
+    public default void onUpdate() {
+        // Update game objects
+        for (IGameObject<R> obj : getObjects()) {
+            obj.update();
+        }
+    }
+
+    /**
+     * 
+     */
     public void process();
+
+    /**
+     * @return the objects
+     */
+    public ArrayList<IGameObject<R>> getObjects();
 
     /**
      * 

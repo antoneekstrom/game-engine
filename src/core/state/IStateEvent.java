@@ -7,14 +7,14 @@ import core.Game;
  */
 public interface IStateEvent {
 
-    public static final String TYPE = "BATTLE_EVENT";
+    public static final String TYPE = "EVENT";
 
     /**
      * Push this event to a state.
      * 
      * @param state the state
      */
-    public default void push(IState state) {
+    public default void push(IState<?> state) {
         state.push(this);
     }
 

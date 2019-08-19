@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-import core.MouseInputHelper;
 import core.math.Vector2D;
 import core.swing.SwingRenderer;
 
@@ -30,6 +29,7 @@ public class TextFieldComponent extends TextComponent {
         this.consumer = consumer;
         this.bg = bg;
         this.activeColor = bg;
+        connectMouse();
         getBox().setWidth(width);
         setFitToText(false, true);
         setSupplier(this::getDisplayText);
@@ -74,6 +74,7 @@ public class TextFieldComponent extends TextComponent {
         if (clearOnSubmit) {
             value = "";
         }
+        isActive = false;
         refresh();
     }
 

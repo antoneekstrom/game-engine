@@ -55,54 +55,6 @@ public abstract class ObjectStorage <O extends IGameObject<R>, R extends IRender
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        for (O obj : getObjects()) {
-            if (shouldPropagate(obj))
-            obj.mouseMoved(e);
-        }
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        for (O obj : getObjects()) {
-            if (shouldPropagate(obj))
-            obj.mouseDragged(e);
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        for (O obj : getObjects()) {
-            if (shouldPropagate(obj))
-            obj.mouseReleased(e);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        for (O obj : getObjects()) {
-            if (shouldPropagate(obj))
-            obj.mousePressed(e);
-        }
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        for (O obj : getObjects()) {
-            if (shouldPropagate(obj))
-            obj.keyPressed(e);
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        for (O obj : getObjects()) {
-            if (shouldPropagate(obj))
-            obj.keyReleased(e);
-        }
-    }
-
-    @Override
     public boolean remove(ArrayList<IGameObject<R>> objects, IGameObject<R> obj, int index) {
         for (O child : getObjects()) {
             if (child == obj) {

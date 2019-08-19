@@ -2,7 +2,6 @@ package core.ui.style;
 
 import core.IRenderer;
 import core.ui.UserInterface;
-import core.ui.layout.AbstractLayout;
 
 /**
  * DataUI TODO

@@ -39,11 +39,6 @@ public abstract class Window <R extends IRenderer<R>> {
     public abstract void build(Game game);
 
     /**
-     * Make the window visible.
-     */
-    public abstract void show();
-
-    /**
      * Start the window.
      */
     public abstract void run();

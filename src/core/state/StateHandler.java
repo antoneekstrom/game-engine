@@ -20,7 +20,7 @@ public class StateHandler {
      * @param file the file to output to
      * @exception IOException
      */
-    public void serialize(IState state, File file) throws IOException {
+    public void serialize(IState<?> state, File file) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
         out.writeObject(state);
         out.flush();
@@ -37,7 +37,7 @@ public class StateHandler {
      * @exception ClassCastException when attempting to cast the state object to invalid class
      */
     @SuppressWarnings("unchecked")
-    public <S extends IState>S deserialize(File file) throws IOException, ClassNotFoundException, ClassCastException {
+    public <S extends IState<?>>S deserialize(File file) throws IOException, ClassNotFoundException, ClassCastException {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
         S state = (S) in.readObject();
         in.close();

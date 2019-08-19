@@ -76,7 +76,7 @@ public interface IRenderer <R extends IRenderer<R>> {
     /**
      * Start the rendering cycle and target the currently set {@link Window} of this renderer.
      * 
-     * <p>By starting the rendering process with this method you can then proceed to render {@link IGraphic} objects with {@link #render(IGraphic)} and show them on the {@link Window}.
+     * <p>By starting the rendering process with this method you can then proceed to render {@link IGraphic} objects with {@link #onRender(IGraphic)} and show them on the {@link Window}.
      * 
      */
     public default void startRendering(Consumer<R> renderConsumer) {
@@ -91,7 +91,7 @@ public interface IRenderer <R extends IRenderer<R>> {
      * Render an {@link IGraphic} object to the current {@link Window}.
      * 
      * <p>Before rendering a graphic, the rendering process has to be started with {@link #render()}. Usually, the process has already been started when rendering.
-     * This method is called before {@link AbstractLogic#render(javax.swing.Renderer)}.
+     * This method is called before {@link AbstractLogic#onRender(javax.swing.Renderer)}.
      * 
      * @param graphic the graphic to render
      * @param screenPos the position on the screen to render the graphic
@@ -106,7 +106,7 @@ public interface IRenderer <R extends IRenderer<R>> {
      * 
      * @param obj the object to render
      * 
-     * @see #render(IGraphic)
+     * @see #onRender(IGraphic)
      *
      */
     public default void pushObject(IGameObject<R> obj) {

@@ -42,17 +42,10 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     public void onMount() {
     }
 
-    /**
-     * Get an ui by searching for it with an id.
-     * 
-     * @param id the id
-     * @return the ui
-     */
-    public UserInterface<R> getById(String id) {
-        for (UserInterface<R> ui : getObjects()) {
-            if (ui.getId().equals(id)) return ui;
-        }
-        throw new IllegalArgumentException(String.format("UserInterface with the id '%s' does not exist.", id));
+    @Override
+    public void add(UserInterface<R> obj) {
+        if (getObjects().size() < 1) setActive(obj);
+        super.add(obj);
     }
 
     /**
@@ -77,13 +70,6 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
     }
 
     /**
-     * @param ui
-     */
-    public void remove(UserInterface<R> ui) {
-        getInterfaces().remove(ui);
-    }
-
-    /**
      * Set an interface as active, show it, and hide the one that was active before.
      * @param ui the ui to show
      */
@@ -93,24 +79,19 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
         getActive().setVisible(true);
     }
 
-    @Override
-    public void add(UserInterface<R> obj) {
-        if (getObjects().size() < 1) setActive(obj);
-        super.add(obj);
+    /**
+     * Set an interface as active, show it, and hide the one that was active before.
+     * @param c the ui to show
+     */
+    public <C extends UserInterface<R>> void show(Class<C> c) {
+        show(getByClass(c));
     }
 
     /**
-     * @param id
+     * @param ui
      */
-    public void show(String id) {
-        show(getById(id));
-    }
-
-    /**
-     * @param uiClass
-     */
-    public void show(Class<? extends UserInterface<R>> uiClass) {
-        show(getByClass(uiClass));
+    public void remove(UserInterface<R> ui) {
+        getInterfaces().remove(ui);
     }
 
     /**
@@ -127,15 +108,6 @@ public class UIManager <R extends IRenderer<R>> extends ObjectStorage<UserInterf
      */
     protected void setActive(UserInterface<R> active) {
         this.active = active;
-    }
-
-    /**
-     * Set an ui as active in the manager. This will make it the one that is shown by
-     * 
-     * @param id the id of the ui to set to active
-     */
-    public void setActive(String id) {
-        setActive(getById(id));
     }
 
     /**

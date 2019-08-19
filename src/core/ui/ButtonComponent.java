@@ -35,7 +35,7 @@ public class ButtonComponent extends TextComponent {
         super(text);
         setText(text);
         setAction(action);
-
+        connectMouse();
         setBackgroundGraphic(new HoverGraphic(this, Color.green, Color.red));
     }
 

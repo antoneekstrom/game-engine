@@ -11,16 +11,27 @@ import core.swing.SwingRenderer;
  * @see SwingRenderer
  * @see AbstractLogic
  */
-public class Game {
+public class Game implements IGame {
 
-    // singleton instance of Game
+    /**
+     * 
+     */
     private static Game game;
 
-    // game
+    /**
+     * 
+     */
     private AbstractLogic<?> logic;
 
-    // graphics
+    /**
+     * 
+     */
     private IRenderer<?> renderer;
+
+    /**
+     * 
+     */
+    private IEngine engine;
 
     /**
      * Create a {@code Game} using a logic instance. Using this constructor is not recommended,
@@ -28,7 +39,8 @@ public class Game {
      * 
      * @param logic the logic to use
      */
-    public Game(AbstractLogic<?> logic, IRenderer<?> renderer) {
+    protected Game(IEngine engine, AbstractLogic<?> logic, IRenderer<?> renderer) {
+        setEngine(engine);
         setLogic(logic);
         setRenderer(renderer);
     }
@@ -42,8 +54,8 @@ public class Game {
      * @see {@link Game#setInstance(Game)}
      * @see {@link Game#create()}
      */
-    public static void create(AbstractLogic<?> logic, IRenderer<?> renderer) {
-        setInstance(new Game(logic, renderer));
+    public static void create(IEngine engine, AbstractLogic<?> logic, IRenderer<?> renderer) {
+        setInstance(new Game(engine, logic, renderer));
     }
 
     /**
@@ -58,28 +70,15 @@ public class Game {
     public static void run(Game game) {
         Game.setInstance(game);
         game.run();
-        game.show();
     }
 
     /**
      * Run the logic of the game.
      */
     public void run() {
+        getEngine().setup();
         getLogic().run();
-    }
-
-    /**
-     * Show the game window.
-     */
-    public void show() {
-        getWindow().show();
-    }
-
-    /**
-     * Convenience method for setting the static instance of game to this object.
-     */
-    public void setInstance() {
-        Game.setInstance(this);
+        getWindow().run();
     }
 
     /**
@@ -89,6 +88,9 @@ public class Game {
         return renderer;
     }
 
+    /**
+     * @return
+     */
     public Window<?> getWindow() {
         return getRenderer().getWindow();
     }
@@ -98,6 +100,13 @@ public class Game {
      */
     public AbstractLogic<?> getLogic() {
         return logic;
+    }
+
+    /**
+     * @return the engine
+     */
+    public IEngine getEngine() {
+        return engine;
     }
 
     /**
@@ -112,6 +121,21 @@ public class Game {
      */
     public void setRenderer(IRenderer<?> renderer) {
         this.renderer = renderer;
+    }
+
+    /**
+     * @param engine the engine to set
+     */
+    public void setEngine(IEngine engine) {
+        this.engine = engine;
+    }
+
+    /**
+     * Set the static (singleton) instance of {@code Game}.
+     * @param game the game instance
+     */
+    public static void setInstance(Game game) {
+        Game.game = game;
     }
 
     /**
@@ -150,14 +174,6 @@ public class Game {
     @SuppressWarnings("unchecked")
     public static <L extends AbstractLogic<?>> L getLogicInstance() {
         return (L) getInstance().getLogic();
-    }
-
-    /**
-     * Set the static (singleton) instance of {@code Game}.
-     * @param game the game instance
-     */
-    public static void setInstance(Game game) {
-        Game.game = game;
     }
     
 }

@@ -2,6 +2,9 @@ package core.swing;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 
@@ -10,7 +13,6 @@ import core.GamePanel;
 import core.IMouseInput;
 import core.SwingWindow;
 import core.math.Vector2D;
-import core.obj.IGameObject;
 
 /**
  * Listens to input from the mouse.
@@ -27,6 +29,8 @@ public class SwingMouseInput extends MouseAdapter implements IMouseInput {
 
     private Vector2D mousePosition;
     private Vector2D mouseDelta;
+
+    private HashMap<Long, Consumer<MouseEvent>> listeners;
 
     /**
      * 
@@ -53,46 +57,50 @@ public class SwingMouseInput extends MouseAdapter implements IMouseInput {
         // was true previously
         panel.setFocusable(false);
         panel.requestFocus();
+
+        listeners = new HashMap<>();
+    }
+
+    @Override
+    public long connect(Consumer<MouseEvent> listener) {
+        long id = ThreadLocalRandom.current().nextLong();
+        listeners.put(id, listener);
+        return id;
+    }
+
+    @Override
+    public void disconnect(long id) {
+        listeners.remove(id);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        super.mouseReleased(e);
-
-        for (IGameObject<?> obj : game.getLogic().getObjects()) {
-            obj.mouseReleased(e);
+        for (Consumer<MouseEvent> l : listeners.values()) {
+            l.accept(e);
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        super.mousePressed(e);
-
-        for (IGameObject<?> obj : game.getLogic().getObjects()) {
-            obj.mousePressed(e);
+        for (Consumer<MouseEvent> l : listeners.values()) {
+            l.accept(e);
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        super.mouseDragged(e);
-
-        updateMousePosition(e);
-
-        for (IGameObject<?> obj : game.getLogic().getObjects()) {
-            obj.mouseDragged(e);
+        for (Consumer<MouseEvent> l : listeners.values()) {
+            l.accept(e);
         }
+        updateMousePosition(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        super.mouseMoved(e);
-
-        updateMousePosition(e);
-
-        for (IGameObject<?> obj : game.getLogic().getObjects()) {
-            obj.mouseMoved(e);
+        for (Consumer<MouseEvent> l : listeners.values()) {
+            l.accept(e);
         }
+        updateMousePosition(e);
     }
 
     /**

@@ -90,13 +90,9 @@ public class SwingWindow extends Window<SwingRenderer> {
     }
 
     @Override
-    public void show() {
+    public void run() {
         frame.setVisible(true);
         panel.setVisible(true);
-    }
-
-    @Override
-    public void run() {
     }
 
     @Override

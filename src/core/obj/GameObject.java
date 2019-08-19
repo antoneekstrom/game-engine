@@ -2,6 +2,7 @@ package core.obj;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import core.AbstractLogic;
 import core.Window;
 import core.math.Box;
 import core.math.Vector2D;
-import core.state.State;
+import core.state.IState;
 
 /**
  * The {@code GameObject} is a concrete implementation of the {@link IGameObject} interface and provides convenience methods and does some boilerplate setup for you.
@@ -39,6 +40,18 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      * The graphic that this object should display.
      */
     private IGraphic<R> graphic;
+
+    /**
+     * 
+     */
+    private long mouseListenerId;
+
+    /**
+     * 
+     */
+    public GameObject() {
+        this(0,0,0,0);
+    }
 
     /**
      * @param box the bounds and position of the object
@@ -79,16 +92,6 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
     @Override
     public void remove() {
         getLogic().remove(this);
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        updateMouseHover();
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        updateMouseHover();
     }
 
     @Override
@@ -133,7 +136,7 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
         r.setLocation((int) pos.getX(), (int) pos.getY());
 
         boolean newState = r.contains(
-                new Point((int) getMouseInput().getPosition().getX(), (int) getMouseInput().getPosition().getY()));
+                new Point((int) getMouse().getPosition().getX(), (int) getMouse().getPosition().getY()));
 
         if (newState && !mouseHover())
             mouseEntered();
@@ -141,6 +144,20 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
             mouseExited();
 
         mouseHover = newState;
+    }
+
+    /**
+     * @param e
+     */
+    protected void mouseMoved(MouseEvent e) {
+        updateMouseHover();
+    }
+
+    /**
+     * @param e
+     */
+    protected void mouseDragged(MouseEvent e) {
+        updateMouseHover();
     }
 
     /**
@@ -157,6 +174,30 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      * Invoked when the mouse exits the bounds of this object.
      */
     protected void mouseExited() {}
+
+    /**
+     * 
+     * @param e
+     */
+    protected void mouseReleased(MouseEvent e) {}
+
+    /**
+     * 
+     * @param e
+     */
+    protected void mousePressed(MouseEvent e) {}
+
+    /**
+     * 
+     * @param e
+     */
+    protected void keyPressed(KeyEvent e) {}
+
+    /**
+     * 
+     * @param e
+     */
+    protected void keyReleased(KeyEvent e) {}
 
     /**
      * Get a copy of the box and set it's position.
@@ -268,11 +309,40 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
     }
 
     /**
+     * @param e
+     */
+    protected void mouseEventConsumer(MouseEvent e) {
+        switch (e.getID()) {
+            case MouseEvent.MOUSE_RELEASED: mouseReleased(e); break;
+            case MouseEvent.MOUSE_PRESSED: mousePressed(e); break;
+            case MouseEvent.MOUSE_DRAGGED: mouseDragged(e); break;
+            case MouseEvent.MOUSE_MOVED: mouseMoved(e); break;
+        }
+    }
+
+    /**
+     * @return
+     */
+    protected IMouseInput connectMouse() {
+        IMouseInput m = getMouse();
+        mouseListenerId = m.connect(this::mouseEventConsumer);
+        return m;
+    }
+
+    /**
+     * 
+     */
+    protected void disconnectMouse() {
+        IMouseInput m = getMouse();
+        m.disconnect(mouseListenerId);
+    }
+
+    /**
      * Get the mouse input of the current game instance.
      * 
      * @return the mouse input
      */
-    protected IMouseInput getMouseInput() {
+    protected IMouseInput getMouse() {
         return getLogic().getMouseInput();
     }
 
@@ -293,8 +363,9 @@ public class GameObject <R extends IRenderer<R>> implements IGameObject<R> {
      * @param <S> the type of state
      * @return the state
      */
-    protected <S extends State> S getState() {
-        return Game.getLogicInstance().getState();
+    @SuppressWarnings("unchecked")
+    protected <S extends IState<?>> S getState() {
+        return (S) Game.getLogicInstance().getState();
     }
 
     /**

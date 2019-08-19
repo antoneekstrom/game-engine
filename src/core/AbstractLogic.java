@@ -1,16 +1,13 @@
 package core;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-import javax.swing.Timer;
-
 import core.Request.RequestType;
 import core.obj.IGameObject;
+import core.state.IState;
 import core.state.State;
 import core.state.StateHandler;
 import core.swing.SwingRenderer;
@@ -29,35 +26,12 @@ import core.ui.UIManager;
  * 
  * <p>Extend {@code Logic} and use a {@code Renderer} with a {@link GameBuilder} to construct a {@link Game} instance. Finally, use {@link Game#run(Game)} to start the game.
  */
-public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionListener {
+public abstract class AbstractLogic <R extends IRenderer<R>> {
     
-    // Timer
-    private Timer timer;
-
-    /**
-     * The interval the timer should update on
-     */
-    private int timerDelay = 10;
-
     /**
      * Where the graphics are drawn.
      */
     Window<R> window;
-
-    /**
-     * Logic can only run if ready is true.
-     */
-    private boolean ready = false;
-
-    /**
-     * If the game loop should be executed.
-     */
-    private boolean loop = false;
-
-    /**
-     * The list of objects that are updated by logic.
-     */
-    ArrayList<IGameObject<R>> objects;
 
     /**
      * Queue for requests that are unable to happen in the middle of the loop execution, like removing an object.
@@ -72,7 +46,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
     /**
      * Where the state of the game is stored.
      */
-    State state;
+    IState<R> state;
 
     /**
      * Do things with state.
@@ -90,26 +64,9 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
     protected AbstractLogic() {}
 
     /**
-     * Build the logic.
-     * 
-     * @param window the window to be used
-     */
-    public void build(Window<R> window) {
-        setWindow(window);
-
-        ready = window != null;
-    }
-
-    /**
      * 
      */
     public void run() {
-
-        if (!ready) throw new IllegalStateException("Has not been initialized yet.");
-
-        getWindow().run();
-
-        objects = new ArrayList<>();
 
         requests = new LinkedList<>();
 
@@ -117,10 +74,14 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
 
         threadHandler = new ThreadHandler();
 
-        timer = new Timer(timerDelay, this);
-
-        state = new State();
         stateHandler = new StateHandler();
+
+        preSetup();
+
+        state = createState();
+        state.setup();
+
+        getWindow().run();
 
         setup();
     }
@@ -137,21 +98,29 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
     }
 
     /**
+     * @return
+     */
+    protected abstract IState<R> createState();
+
+    /** 
+     * 
+    */
+    protected void preSetup() {
+    }
+
+    /**
      * Is run sometime at the start of the game.
      * 
      * @see {@link Game#run()}
      */
     protected abstract void setup();
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    /**
+     * 
+     */
+    public void onEngineUpdate(double delta) {
 
-        if (!loop) return;
-
-        // Update game objects
-        for (IGameObject<R> obj : objects) {
-            obj.update();
-        }
+        state.onUpdate();
 
         // Call the update method of this logic
         update();
@@ -161,7 +130,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
 
         // Initialize rendering
         R renderer = getRenderer();
-        renderer.startRendering(this::render);
+        renderer.startRendering(this::onRender);
     }
 
     /**
@@ -169,7 +138,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
      * 
      * @param renderer the renderer that is used
      */
-    protected abstract void render(R renderer);
+    protected abstract void onRender(R renderer);
 
     /**
      * Update is called on a timer.
@@ -182,7 +151,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
      * @param obj the object to add
      */
     public void add(IGameObject<R> obj) {
-        objects.add(obj);
+        getObjects().add(obj);
         obj.onMount();
     }
 
@@ -192,23 +161,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
      * @param objs the objects to add
      */
     public void add(Collection<IGameObject<R>> objs) {
-        objects.addAll(objs);
-    }
-
-    /**
-     * Allow the logic loop to by executed.
-     */
-    public void startLoop() {
-        timer.start();
-        loop = true;
-    }
-
-    /**
-     * Stop the loop from executing.
-     */
-    public void stopLoop() {
-        timer.stop();
-        loop = false;
+        getObjects().addAll(objs);
     }
 
     /**
@@ -217,7 +170,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
      * @return the state
      */
     @SuppressWarnings("unchecked")
-    public <S extends State> S getState() {
+    public <S extends IState<?>> S getState() {
         return (S) state;
     }
 
@@ -236,21 +189,19 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
     }
 
     /**
-     * Get the timer that is executing the update loop.
-     * 
-     * @return the timer
-     */
-    public Timer getTimer() {
-        return timer;
-    }
-
-    /**
      * @return the stateHandler
      */
     public StateHandler getStateHandler() {
         return stateHandler;
     }
-    
+
+    /**
+     * @return
+     */
+    public IEngine getEngine() {
+        return Game.getInstance().getEngine();
+    }
+
     /**
      * @return the panel
      */
@@ -276,7 +227,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
      * @return the objects
      */
     public ArrayList<IGameObject<R>> getObjects() {
-        return objects;
+        return state.getObjects();
     }
 
     /**
@@ -325,7 +276,7 @@ public abstract class AbstractLogic <R extends IRenderer<R>> implements ActionLi
     /**
      * @param state the state to set
      */
-    public void setState(State state) {
+    public void setState(IState<R> state) {
         this.state = state;
     }
 

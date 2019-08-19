@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import core.Game;
+import core.IRenderer;
+import core.obj.IGameObject;
 import core.AbstractLogic;
 
 /**
@@ -13,7 +15,7 @@ import core.AbstractLogic;
  * <p>
  * Used in {@link AbstractLogic} to store game data.
  */
-public class State implements IState {
+public class State<R extends IRenderer<R>> implements IState<R> {
 
     // serial ID
     private static final long serialVersionUID = -1957553428397576783L;
@@ -21,12 +23,23 @@ public class State implements IState {
     private ArrayList<IStateListener> listeners;
     private LinkedList<IStateEvent> events;
 
+    /**
+     * The list of objects that are updated by logic.
+     */
+    ArrayList<IGameObject<R>> objects;
+
     public State() {
-        listeners = new ArrayList<>();
-        events = new LinkedList<>();
     }
 
     public void setup() {
+        listeners = new ArrayList<>();
+        events = new LinkedList<>();
+        objects = new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<IGameObject<R>> getObjects() {
+        return objects;
     }
 
     @Override

@@ -10,6 +10,7 @@ import core.graphic.Camera;
  */
 public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
 
+    IEngine engine;
     AbstractLogic<R> logic;
     W window;
     R renderer;
@@ -18,12 +19,17 @@ public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
      * Create the instance.
      * @return the {@link Game} instance
      */
-    public Game build() {
+    public Game build() throws Exception {
 
-        Game game = new Game(getLogic(), getRenderer());
+        if (logic == null) throw new Exception("A Logic component has to be set.");
+        if (window == null) throw new Exception("A Window component has to be set.");
+        if (renderer == null) throw new Exception("A Renderer component has to be set.");
+        if (engine == null) throw new Exception("An Engine component has to be set.");
+
+        Game game = new Game(getEngine(), getLogic(), getRenderer());
 
         getWindow().build(game);
-        getLogic().build(getWindow());
+        getLogic().setWindow(getWindow());
         getRenderer().build(getWindow(), new Camera());
 
         return game;
@@ -62,6 +68,20 @@ public class GameBuilder <W extends Window<R>, R extends IRenderer<R>> {
      */
     public W getWindow() {
         return window;
+    }
+
+    /**
+     * @return the engine
+     */
+    public IEngine getEngine() {
+        return engine;
+    }
+
+    /**
+     * @param engine the engine to set
+     */
+    public void setEngine(IEngine engine) {
+        this.engine = engine;
     }
 
     /**

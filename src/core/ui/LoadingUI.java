@@ -14,8 +14,6 @@ import core.ui.layout.CenteredLayout;
  */
 public class LoadingUI extends SwingUI {
 
-    public static final String ID = "loading_ui";
-
     /**
      * 
      */
@@ -26,11 +24,6 @@ public class LoadingUI extends SwingUI {
     Container<SwingRenderer> main;
     TextComponent statusTextComp;
     String statusText = "loading..";
-
-    @Override
-    public String getId() {
-        return ID;
-    }
 
     @Override
     public void mouseMoved(MouseEvent e) {
